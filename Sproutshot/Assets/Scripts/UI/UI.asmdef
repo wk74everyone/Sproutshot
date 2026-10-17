@@ -1,0 +1,20 @@
+{
+    "name": "UI",
+    "rootNamespace": "Sproutshot.UI",
+    "references": [
+        "GUID:4902dd2d9fb05c04294f1704aa9eb3b3",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:48678fc946a24214db13ce8a093a8d3e",
+        "GUID:e34a5702dd353724aa315fb8011f08c3",
+        "GUID:810698b5ab3c7c24091d34220cb95c5a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

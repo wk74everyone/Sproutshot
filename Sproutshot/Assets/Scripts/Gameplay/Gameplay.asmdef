@@ -1,0 +1,16 @@
+{
+    "name": "Gameplay",
+    "rootNamespace": "Sproutshot.Gameplay",
+    "references": [
+        "GUID:4902dd2d9fb05c04294f1704aa9eb3b3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

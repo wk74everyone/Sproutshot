@@ -1,0 +1,341 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\TuanJie\\Projects\\Sproutshot\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|d:\\tuanjie\\projects\\sproutshot\\assets\\scripts\\gameplay\\enemy\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\enemy\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\enemy\\enemybrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\enemy\\enemybrain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\runtime\\levelruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\runtime\\levelruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\runcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\runcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\enemy\\states\\enemyidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\enemy\\states\\enemyidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\utils\\designpattern\\statemachine\\basestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|solutionrelative:assets\\scripts\\utils\\designpattern\\statemachine\\basestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\utils\\designpattern\\statemachine\\brain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|solutionrelative:assets\\scripts\\utils\\designpattern\\statemachine\\brain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\enemy\\enemyentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\enemy\\enemyentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\runtime\\playerruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\runtime\\playerruntime.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\utils\\designpattern\\pool\\poolmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|solutionrelative:assets\\scripts\\utils\\designpattern\\pool\\poolmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\sprout\\playerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\sprout\\playerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\sprout\\bulletlauncher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\sprout\\bulletlauncher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\battle\\bullet\\playerbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\battle\\bullet\\playerbullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameplay\\battle\\bullet\\ibullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}|Gameplay.csproj|solutionrelative:assets\\scripts\\gameplay\\battle\\bullet\\ibullet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FCF083C2-4670-E6F2-8735-9A679EE05922}|Assembly-CSharp.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\gameroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FCF083C2-4670-E6F2-8735-9A679EE05922}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gameroot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\utils\\managers\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|solutionrelative:assets\\scripts\\utils\\managers\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58A6D106-978F-D728-0C84-521C255BD66C}|UI.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\ui\\maincamp\\sproutrafflepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58A6D106-978F-D728-0C84-521C255BD66C}|UI.csproj|solutionrelative:assets\\scripts\\ui\\maincamp\\sproutrafflepanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\utils\\proceduralanimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2AB07667-7575-6F71-C2D1-24107E4BE5CC}|Utils.csproj|solutionrelative:assets\\scripts\\utils\\proceduralanimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{58A6D106-978F-D728-0C84-521C255BD66C}|UI.csproj|D:\\TuanJie\\Projects\\Sproutshot\\assets\\scripts\\ui\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58A6D106-978F-D728-0C84-521C255BD66C}|UI.csproj|solutionrelative:assets\\scripts\\ui\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LevelRuntime.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Runtime\\LevelRuntime.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Runtime\\LevelRuntime.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Runtime\\LevelRuntime.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Runtime\\LevelRuntime.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T10:49:02.457Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Brain.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\Brain.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\Brain.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\Brain.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\Brain.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T10:47:44.601Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EnemyIdle.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\States\\EnemyIdle.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Enemy\\States\\EnemyIdle.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\States\\EnemyIdle.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Enemy\\States\\EnemyIdle.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:38.097Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BaseState.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\BaseState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\BaseState.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\BaseState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Utils\\DesignPattern\\StateMachine\\BaseState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T10:47:44.623Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EnemyBrain.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\EnemyBrain.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Enemy\\EnemyBrain.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\EnemyBrain.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Enemy\\EnemyBrain.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.074Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "PlayerEntity.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Sprout\\PlayerEntity.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Sprout\\PlayerEntity.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Sprout\\PlayerEntity.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Sprout\\PlayerEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EnemyEntity.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\EnemyEntity.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Enemy\\EnemyEntity.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\EnemyEntity.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Enemy\\EnemyEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Entity.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Entity.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Entity.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Entity.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Entity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.076Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "BulletLauncher.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Sprout\\BulletLauncher.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Sprout\\BulletLauncher.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Sprout\\BulletLauncher.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Sprout\\BulletLauncher.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA3wBoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.076Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EnemySpawner.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\EnemySpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Enemy\\EnemySpawner.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Enemy\\EnemySpawner.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Enemy\\EnemySpawner.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAkwCAAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PoolManager.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\DesignPattern\\Pool\\PoolManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Utils\\DesignPattern\\Pool\\PoolManager.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\DesignPattern\\Pool\\PoolManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Utils\\DesignPattern\\Pool\\PoolManager.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAswMAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T10:47:44.658Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IBullet.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Battle\\Bullet\\IBullet.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Battle\\Bullet\\IBullet.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Battle\\Bullet\\IBullet.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Battle\\Bullet\\IBullet.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.077Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PlayerBullet.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Battle\\Bullet\\PlayerBullet.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Battle\\Bullet\\PlayerBullet.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Battle\\Bullet\\PlayerBullet.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Battle\\Bullet\\PlayerBullet.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAswBEAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.078Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "UIManager.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\UI\\UIManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\UIManager.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\UI\\UIManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\UIManager.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwAcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-14T04:32:15.673Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "SproutRafflePanel.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\UI\\MainCamp\\SproutRafflePanel.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\MainCamp\\SproutRafflePanel.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\UI\\MainCamp\\SproutRafflePanel.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\MainCamp\\SproutRafflePanel.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAkwE8AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-14T15:20:20.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AudioManager.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\Managers\\AudioManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Utils\\Managers\\AudioManager.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\Managers\\AudioManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Utils\\Managers\\AudioManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T10:47:44.684Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GameRoot.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\GameRoot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameRoot.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\GameRoot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameRoot.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAcwA0AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-07T16:23:16.171Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ProceduralAnimation.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\ProceduralAnimation.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Utils\\ProceduralAnimation.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Utils\\ProceduralAnimation.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Utils\\ProceduralAnimation.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAADgvxwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T10:47:44.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PlayerRuntime.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Runtime\\PlayerRuntime.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\Runtime\\PlayerRuntime.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\Runtime\\PlayerRuntime.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\Runtime\\PlayerRuntime.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.081Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RunContext.cs",
+              "DocumentMoniker": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\RunContext.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Gameplay\\RunContext.cs",
+              "ToolTip": "D:\\TuanJie\\Projects\\Sproutshot\\Assets\\Scripts\\Gameplay\\RunContext.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Gameplay\\RunContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-17T09:44:30.082Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

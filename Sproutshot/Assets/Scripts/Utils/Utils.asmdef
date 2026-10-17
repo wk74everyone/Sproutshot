@@ -1,0 +1,21 @@
+{
+    "name": "Utils",
+    "rootNamespace": "Sproutshot.Utils",
+    "references": [
+        "GUID:e34a5702dd353724aa315fb8011f08c3",
+        "GUID:48678fc946a24214db13ce8a093a8d3e",
+        "GUID:2a81c6962524d424a8ef5072bd3b0fa0",
+        "GUID:770a01dad90fa244cbd03f436e44e1fc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "DOTween.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

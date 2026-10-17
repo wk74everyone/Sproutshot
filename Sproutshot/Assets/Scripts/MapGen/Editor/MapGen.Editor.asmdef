@@ -1,0 +1,22 @@
+{
+    "name": "MapGen.Editor",
+    "rootNamespace": "Sproutshot.MapGen.Editor",
+    "references": [
+        "MapGen",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "YooAsset.Editor",
+        "Cinemachine",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

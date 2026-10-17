@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "cn.tuanjie.ai.generators": "file:D:/TuanJie/Projects/Sproutshot/.codely-cli/extensions/TJGenerators/Packages/cn.tuanjie.ai.generators"
+  }
+}
