@@ -26,6 +26,8 @@ namespace Sproutshot.MapGen
             PlaceScattered(map, random, MapObjectCategory.Obstacle, (int)(densityUnits * .045f * rules.DensityScale), true);
             PlaceScattered(map, random, MapObjectCategory.Decal, (int)(densityUnits * .035f * rules.DensityScale), false);
             PlaceScattered(map, random, MapObjectCategory.Decoration, (int)(densityUnits * .15f * rules.DensityScale), false);
+            // Base navigation is ready before map-generated events. Actor radii are cached on first use.
+            map.GetNavigationGrid();
             return map;
         }
 

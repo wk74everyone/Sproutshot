@@ -17,6 +17,7 @@ public partial class Tables
     public card.tbDisplay TbDisplay {get; }
     public level.tbReward TbReward {get; }
     public growth_tbLevel GrowthTbLevel {get; }
+    public entity_tbAttribute EntityTbAttribute {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
@@ -24,6 +25,7 @@ public partial class Tables
         TbDisplay = new card.tbDisplay(loader("card_tbdisplay"));
         TbReward = new level.tbReward(loader("level_tbreward"));
         GrowthTbLevel = new growth_tbLevel(loader("growth_tblevel"));
+        EntityTbAttribute = new entity_tbAttribute(loader("entity_tbattribute"));
         ResolveRef();
     }
     
@@ -33,6 +35,7 @@ public partial class Tables
         TbDisplay.ResolveRef(this);
         TbReward.ResolveRef(this);
         GrowthTbLevel.ResolveRef(this);
+        EntityTbAttribute.ResolveRef(this);
     }
 }
 

@@ -4,6 +4,8 @@ Shader "Sproutshot/2D/Map Sprite"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1, 1, 1, 1)
+        [PerRendererData] _FlashColor ("Flash Color", Color) = (1, .25, .04, 1)
+        [PerRendererData] _FlashAmount ("Flash Amount", Range(0, 1)) = 0
     }
 
     SubShader
@@ -48,6 +50,8 @@ Shader "Sproutshot/2D/Map Sprite"
                 float4 positionHCS : SV_POSITION;
                 half4 color : COLOR;
                 float2 uv : TEXCOORD0;
+                half4 flashColor : TEXCOORD1;
+                half flashAmount : TEXCOORD2;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -58,6 +62,11 @@ Shader "Sproutshot/2D/Map Sprite"
                 float4 _MainTex_ST;
                 half4 _Color;
             CBUFFER_END
+
+            UNITY_INSTANCING_BUFFER_START(EnemyFlash)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _FlashColor)
+                UNITY_DEFINE_INSTANCED_PROP(float, _FlashAmount)
+            UNITY_INSTANCING_BUFFER_END(EnemyFlash)
 
             Varyings Vert(Attributes input)
             {
@@ -70,6 +79,8 @@ Shader "Sproutshot/2D/Map Sprite"
                 output.positionHCS = TransformWorldToHClip(worldPosition);
                 output.uv = TRANSFORM_TEX(input.uv, _MainTex);
                 output.color = input.color * _Color * unity_SpriteColor;
+                output.flashColor = UNITY_ACCESS_INSTANCED_PROP(EnemyFlash, _FlashColor);
+                output.flashAmount = UNITY_ACCESS_INSTANCED_PROP(EnemyFlash, _FlashAmount);
                 return output;
             }
 
@@ -77,6 +88,7 @@ Shader "Sproutshot/2D/Map Sprite"
             {
                 half4 source = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv) * input.color;
                 clip(source.a - 0.001h);
+                source.rgb = lerp(source.rgb, input.flashColor.rgb, saturate(input.flashAmount));
 
                 return source;
             }

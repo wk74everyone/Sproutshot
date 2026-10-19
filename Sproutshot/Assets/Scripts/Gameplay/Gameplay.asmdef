@@ -2,7 +2,9 @@
     "name": "Gameplay",
     "rootNamespace": "Sproutshot.Gameplay",
     "references": [
-        "GUID:4902dd2d9fb05c04294f1704aa9eb3b3"
+        "GUID:4902dd2d9fb05c04294f1704aa9eb3b3",
+        "GUID:810698b5ab3c7c24091d34220cb95c5a",
+        "GUID:48678fc946a24214db13ce8a093a8d3e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

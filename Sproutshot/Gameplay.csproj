@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Gameplay\Entity.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyDeath.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Runtime\PlayerRuntime.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Sprout\PlayerEntity.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\PlayerBullet.cs" />
@@ -68,7 +69,11 @@
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemyBrain.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Runtime\LevelRuntime.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Sprout\BulletLauncher.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\BattleRoot.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyChase.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Gameplay\RunContext.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\SpaceManaged\SpatialGrid.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\IBullet.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemyEntity.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemySpawner.cs" />
@@ -998,6 +1003,14 @@
     <ProjectReference Include="Utils.csproj">
       <Project>{2AB07667-7575-6F71-C2D1-24107E4BE5CC}</Project>
       <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="MapGen.csproj">
+      <Project>{77E9773F-1739-6256-BCB9-BD3BADA0A6B3}</Project>
+      <Name>MapGen</Name>
+    </ProjectReference>
+    <ProjectReference Include="LubanTable.csproj">
+      <Project>{3F8D27D8-9CB0-C0A1-9E7A-FA3E69AE64A2}</Project>
+      <Name>LubanTable</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

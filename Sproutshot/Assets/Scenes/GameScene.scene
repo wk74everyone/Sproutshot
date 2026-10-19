@@ -1035,6 +1035,8 @@ GameObject:
   - component: {fileID: 910000002}
   - component: {fileID: 910000003}
   - component: {fileID: 910000010}
+  - component: {fileID: 910000011}
+  - component: {fileID: 910000012}
   m_Layer: 0
   m_HasEditorInfo: 1
   m_Name: Grid Ecology Map
@@ -1086,23 +1088,6 @@ MonoBehaviour:
   view: {fileID: 910000003}
   virtualCamera: {fileID: 391975655}
   visibleWorldWidth: 7.293
---- !u!114 &910000010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910000000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a51ed5a0374e42d8be6dd12c6699b6cd, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  generator: {fileID: 910000002}
-  mapView: {fileID: 910000003}
-  playerPrefab: {fileID: 0}
-  playerPrefabAddress: Player
-  inputCamera: {fileID: 519420031}
 --- !u!114 &910000003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1113,6 +1098,99 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d94b820f1642a5648ab1c06e93f581d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &910000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a51ed5a0374e42d8be6dd12c6699b6cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator: {fileID: 910000002}
+  mapView: {fileID: 910000003}
+  playerPrefab: {fileID: 0}
+  playerPrefabAddress: Player
+  inputCamera: {fileID: 519420031}
+--- !u!114 &910000011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc0f01a6c8f9cd24ca3c0b565e742153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapView: {fileID: 0}
+  _playerSpawner: {fileID: 0}
+  _target: {fileID: 0}
+  _autoUpdate: 1
+  _clearance: 0.54
+  _rebuildInterval: 0.15
+  _arrivalDistance: 0.05
+--- !u!114 &910000012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37c81b78e333a424c9bfac74e8460efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &920000000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 7
+  m_Component:
+  - component: {fileID: 920000001}
+  - component: {fileID: 920000002}
+  m_Layer: 0
+  m_HasEditorInfo: 1
+  m_Name: BattleRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &920000001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920000000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &920000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b8d4d46078446cac35203b6dbb60be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1231437083
@@ -1290,6 +1368,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 920000001}
   - {fileID: 519420032}
   - {fileID: 391975656}
   - {fileID: 1745813130}

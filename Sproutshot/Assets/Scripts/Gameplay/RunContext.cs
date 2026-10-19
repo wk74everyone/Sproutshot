@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Sproutshot.Gameplay
 {
     public class RunContext
@@ -8,6 +6,7 @@ namespace Sproutshot.Gameplay
 
         public PlayerRuntime PlayerContext;
         public LevelRuntime LevelContext;
+        public PlayerEntity PlayerEntity;
 
         public RunContext()
         {

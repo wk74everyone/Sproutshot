@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Utils\ProceduralAnimation.cs" />
     <Compile Include="Assets\Scripts\Utils\Save\StageProgressData.cs" />
     <Compile Include="Assets\Scripts\Utils\Save\StageProgressSave.cs" />
+    <Compile Include="Assets\Scripts\Utils\EnemyAnimation.cs" />
     <Compile Include="Assets\Scripts\Utils\DesignPattern\Pool\IPoolable.cs" />
     <Compile Include="Assets\Scripts\Utils\DesignPattern\Pool\PoolManager.cs" />
   </ItemGroup>

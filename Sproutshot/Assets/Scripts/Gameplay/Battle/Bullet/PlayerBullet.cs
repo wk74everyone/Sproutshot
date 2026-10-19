@@ -17,7 +17,7 @@ namespace Sproutshot.Gameplay
         /// <summary>由对象池取出后调用。方向只在发射时确定，后续移动使用世界坐标。</summary>
         public void Launch(Vector3 direction)
         {
-            Reset();
+            ResetAll();
             flightDirection = new Vector3(direction.x, direction.y, 0).normalized;
             if (flightDirection == Vector3.zero) { Recycle(); return; }
             flying = true;
@@ -43,13 +43,13 @@ namespace Sproutshot.Gameplay
             PoolManager.Instance.Put(this);
         }
 
-        public void Reset()
+        public void ResetAll()
         {
             flightDirection = Vector3.zero;
             travelled = elapsed = 0;
             flying = false;
         }
 
-        private void OnDisable() => Reset();
+        private void OnDisable() => ResetAll();
     }
 }

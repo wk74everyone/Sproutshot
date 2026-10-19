@@ -91,6 +91,7 @@ namespace Sproutshot.MapGen
         public float SpawnClearRadius, CorridorHalfWidth;
         public readonly List<MapPlacement> Placements = new List<MapPlacement>();
         public readonly List<MapPlacement> Cores = new List<MapPlacement>();
+        private readonly Dictionary<float, MapNavigationGrid> navigationGrids = new Dictionary<float, MapNavigationGrid>();
         public float MinX => -CellSize * .5f;
         public float MaxX => (Width - .5f) * CellSize;
         public float MinY => -CellSize * .5f;
@@ -113,6 +114,29 @@ namespace Sproutshot.MapGen
             Cells = new GridCell[width * height];
             for (int i = 0; i < Cells.Length; i++) Cells[i] = new GridCell();
         }
+
+        /// <summary>
+        /// Returns the shared navigation grid for this clearance, in local map units.
+        /// Each exact clearance is built once per map. Rejects invalid radii or actors larger than the map.
+        /// </summary>
+        public MapNavigationGrid GetNavigationGrid(float clearance = 0)
+        {
+            if (float.IsNaN(clearance) || float.IsInfinity(clearance) || clearance < 0)
+                throw new ArgumentOutOfRangeException(nameof(clearance));
+            if (!navigationGrids.TryGetValue(clearance, out MapNavigationGrid grid))
+            {
+                grid = new MapNavigationGrid(this, clearance);
+                navigationGrids.Add(clearance, grid);
+            }
+            return grid;
+        }
+
+        /// <summary>
+        /// Call after adding/removing/moving blocking placements or changing their footprints.
+        /// Discard previously held grids and flow fields; the next request rebuilds navigation.
+        /// Terrain blend changes and actor/target movement do not require invalidation.
+        /// </summary>
+        public void InvalidateNavigationGrids() => navigationGrids.Clear();
 
         public bool Contains(GridCoord c) => c.Col >= 0 && c.Row >= 0 && c.Col < Width && c.Row < Height;
         public int IndexOf(GridCoord c) => Contains(c) ? c.Row * Width + c.Col : -1;

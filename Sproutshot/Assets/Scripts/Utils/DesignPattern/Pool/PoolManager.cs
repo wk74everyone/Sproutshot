@@ -113,7 +113,7 @@ namespace Sproutshot.Utils
             try
             {
                 foreach (IPoolable resetter in entry.Resetters)
-                    if (resetter is Object component && component != null) resetter.Reset();
+                    if (resetter is Object component && component != null) resetter.ResetAll();
             }
             catch (Exception exception)
             {

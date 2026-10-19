@@ -24,7 +24,12 @@ namespace Sproutshot.MapGen
             target = new MapPoint(Clamp(target.X, minX, maxX), Clamp(target.Y, minY, maxY));
             if (CanTraverse(map, start, target, clearance)) { result.Add(target); return true; }
 
-            var grid = new SearchGrid(map, clearance, minX, maxX, minY, maxY);
+            MapNavigationGrid grid = map.GetNavigationGrid(clearance);
+            // Search state belongs to this request, never to the shared navigation grid.
+            var closed = new bool[grid.Count];
+            var costs = new float[grid.Count];
+            var parents = new int[grid.Count];
+            for (int i = 0; i < grid.Count; i++) { costs[i] = float.MaxValue; parents[i] = -1; }
             bool exactTarget = map.IsWalkable(target, clearance);
             float nearestPossible = float.MaxValue;
             if (!exactTarget)
@@ -43,8 +48,8 @@ namespace Sproutshot.MapGen
                 int i = y * grid.Columns + x;
                 MapPoint point = grid.Point(i);
                 if (!grid.Walkable[i] || !CanTraverse(map, start, point, clearance)) continue;
-                grid.Cost[i] = Distance(start, point);
-                open.Add(i, grid.Cost[i], grid.Cost[i] + Distance(point, target));
+                costs[i] = Distance(start, point);
+                open.Add(i, costs[i], costs[i] + Distance(point, target));
             }
 
             int best = -1;
@@ -53,15 +58,15 @@ namespace Sproutshot.MapGen
             {
                 HeapEntry entry = open.Pop();
                 int current = entry.Index;
-                if (grid.Closed[current] || entry.Cost > grid.Cost[current]) continue;
-                grid.Closed[current] = true;
+                if (closed[current] || entry.Cost > costs[current]) continue;
+                closed[current] = true;
                 MapPoint point = grid.Point(current);
                 float distance = MapPoint.DistanceSquared(point, target);
                 if (distance < bestDistance) { best = current; bestDistance = distance; }
                 if (exactTarget && CanTraverse(map, point, target, clearance))
-                    return BuildResult(grid, current, start, target, map, clearance, result);
+                    return BuildResult(grid, parents, current, start, target, map, clearance, result);
                 if (!exactTarget && distance <= projectedGoalDistance * projectedGoalDistance)
-                    return BuildResult(grid, current, start, ApproachTarget(map, point, target, clearance),
+                    return BuildResult(grid, parents, current, start, ApproachTarget(map, point, target, clearance),
                         map, clearance, result);
 
                 int col = current % grid.Columns, row = current / grid.Columns;
@@ -72,18 +77,18 @@ namespace Sproutshot.MapGen
                     int x = col + dx, y = row + dy;
                     if (x < 0 || x >= grid.Columns || y < 0 || y >= grid.Rows) continue;
                     int next = y * grid.Columns + x;
-                    if (!grid.Walkable[next] || grid.Closed[next]) continue;
+                    if (!grid.Walkable[next] || closed[next]) continue;
                     MapPoint nextPoint = grid.Point(next);
-                    float cost = grid.Cost[current] + Distance(point, nextPoint);
-                    if (cost >= grid.Cost[next] || !CanTraverse(map, point, nextPoint, clearance)) continue;
-                    grid.Parent[next] = current;
-                    grid.Cost[next] = cost;
+                    float cost = costs[current] + Distance(point, nextPoint);
+                    if (cost >= costs[next] || !CanTraverse(map, point, nextPoint, clearance)) continue;
+                    parents[next] = current;
+                    costs[next] = cost;
                     open.Add(next, cost, cost + Distance(nextPoint, target));
                 }
             }
             // The closest side can itself be separated by a wall. If the click was on an
             // obstacle, use the closest point in the component actually reachable from start.
-            return !exactTarget && best >= 0 && BuildResult(grid, best, start,
+            return !exactTarget && best >= 0 && BuildResult(grid, parents, best, start,
                 ApproachTarget(map, grid.Point(best), target, clearance), map, clearance, result);
         }
 
@@ -115,11 +120,11 @@ namespace Sproutshot.MapGen
             return true;
         }
 
-        private static bool BuildResult(SearchGrid grid, int end, MapPoint start, MapPoint target,
+        private static bool BuildResult(MapNavigationGrid grid, int[] parents, int end, MapPoint start, MapPoint target,
             GridMapData map, float clearance, List<MapPoint> result)
         {
             var reverse = new List<MapPoint>();
-            for (int i = end; i >= 0; i = grid.Parent[i]) reverse.Add(grid.Point(i));
+            for (int i = end; i >= 0; i = parents[i]) reverse.Add(grid.Point(i));
             reverse.Reverse();
             reverse.Add(target);
             MapPoint anchor = start;
@@ -157,48 +162,6 @@ namespace Sproutshot.MapGen
         private static bool Finite(MapPoint p) => Finite(p.X) && Finite(p.Y);
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
         private static float Clamp(float value, float min, float max) => Math.Max(min, Math.Min(max, value));
-
-        private sealed class SearchGrid
-        {
-            public readonly int Columns, Rows, Count;
-            public readonly float Step;
-            public readonly bool[] Walkable, Closed;
-            public readonly float[] Cost;
-            public readonly int[] Parent;
-            private readonly float minX, minY;
-
-            public SearchGrid(GridMapData map, float clearance, float x0, float x1, float y0, float y1)
-            {
-                float desiredStep = Math.Max(.12f, map.ArtScale * .35f);
-                // Bounds allocation even for malformed/oversized maps supplied outside the generator.
-                desiredStep = Math.Max(desiredStep, Math.Max(x1 - x0, y1 - y0) / 255f);
-                Step = desiredStep;
-                Columns = Math.Max(1, (int)Math.Floor((x1 - x0) / Step) + 1);
-                Rows = Math.Max(1, (int)Math.Floor((y1 - y0) / Step) + 1);
-                Count = Columns * Rows;
-                // Equal spacing on both axes. Center the remaining border strip in the bounds.
-                minX = x0 + ((x1 - x0) - (Columns - 1) * Step) * .5f;
-                minY = y0 + ((y1 - y0) - (Rows - 1) * Step) * .5f;
-                Walkable = new bool[Count]; Closed = new bool[Count]; Cost = new float[Count]; Parent = new int[Count];
-                for (int i = 0; i < Count; i++) { Walkable[i] = true; Cost[i] = float.MaxValue; Parent[i] = -1; }
-                foreach (MapPlacement placement in map.Placements)
-                {
-                    if (!placement.BlocksMovement) continue;
-                    float radius = Math.Max(0, placement.FootprintRadius) + clearance;
-                    int left = Column(placement.Position.X - radius), right = Column(placement.Position.X + radius);
-                    int bottom = Row(placement.Position.Y - radius), top = Row(placement.Position.Y + radius);
-                    for (int y = Math.Max(0, bottom - 1); y <= Math.Min(Rows - 1, top + 1); y++)
-                    for (int x = Math.Max(0, left - 1); x <= Math.Min(Columns - 1, right + 1); x++)
-                    {
-                        int i = y * Columns + x;
-                        if (MapPoint.DistanceSquared(Point(i), placement.Position) < radius * radius) Walkable[i] = false;
-                    }
-                }
-            }
-            public MapPoint Point(int index) => new MapPoint(minX + index % Columns * Step, minY + index / Columns * Step);
-            public int Column(float x) => Math.Max(0, Math.Min(Columns - 1, (int)Math.Round((x - minX) / Step)));
-            public int Row(float y) => Math.Max(0, Math.Min(Rows - 1, (int)Math.Round((y - minY) / Step)));
-        }
 
         private readonly struct HeapEntry
         {

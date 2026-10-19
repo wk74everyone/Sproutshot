@@ -65,6 +65,7 @@
     <Compile Include="Assets\Datas\Configs\Code\growth_tbLevel.cs" />
     <Compile Include="Assets\Datas\Configs\Code\growth_level.cs" />
     <Compile Include="Assets\Datas\Configs\Code\CardRarityType.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\entity_attribute.cs" />
     <Compile Include="Assets\Datas\Configs\Code\vector4.cs" />
     <Compile Include="Assets\Datas\Configs\Code\vector3.cs" />
     <Compile Include="Assets\Datas\Configs\Code\vector2.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Assets\Datas\Configs\Code\card\Display.cs" />
     <Compile Include="Assets\Datas\Configs\Code\BuffType.cs" />
     <Compile Include="Assets\Datas\Configs\Code\card\tbBuff.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\entity_tbAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Datas\Configs\LubanTable.asmdef" />
