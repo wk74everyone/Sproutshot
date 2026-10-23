@@ -55,7 +55,7 @@ namespace Sproutshot.Gameplay
         public override void OnExit()
         {
             _chasing = false;
-            _animation?.ResetAll();
+            _animation?.ResetPose();
         }
 
         public override void OnUpdate()
@@ -65,7 +65,7 @@ namespace Sproutshot.Gameplay
             var player = RunContext.Current?.PlayerEntity;
             if (player == null || !player.isActiveAndEnabled)
             {
-                _animation?.ResetAll();
+                _animation?.ResetPose();
                 if (_brain is EnemyBrain idleBrain) idleBrain.TryChangeState(_idleState);
                 return;
             }
@@ -76,7 +76,7 @@ namespace Sproutshot.Gameplay
             ResolveFlowField();
             if (_flowField == null || !_flowField.isActiveAndEnabled)
             {
-                _animation?.ResetAll();
+                _animation?.ResetPose();
                 return;
             }
 
@@ -87,7 +87,9 @@ namespace Sproutshot.Gameplay
                 _moveRoot.position = next;
                 _animation?.PlayChase(next - previous, Time.deltaTime);
             }
-            else _animation?.ResetAll();
+            else _animation?.ResetPose();
+
+            _enemyEntity.UpdateSpatialPosition();
         }
 
         private void ResolveFlowField()

@@ -10,18 +10,30 @@ namespace Sproutshot.Utils
         [SerializeField, Min(0)] private float _swayAngle = 5f;
         [SerializeField, Min(0)] private float _swayFrequency = 3f;
         [SerializeField, Min(0)] private float _pullback = .08f;
-        [SerializeField] private Color _warningColor = new Color(1f, .25f, .04f, 1f);
+        [SerializeField] private Color _warningColor = Color.white;
+        [SerializeField] private Color _damageColor = Color.red;
+        [SerializeField, Min(.01f)] private float _damageFlashDuration = .12f;
+        [SerializeField, Range(0, 1)] private float _damageFlashStrength = .85f;
 
         private Vector3 _position, _scale;
         private Quaternion _rotation;
         private Color _color;
         private bool _initialized;
         private float _chaseTime;
+        private float _warningAmount;
+        private float _damageFlashRemaining;
+        private bool _damageJustStarted;
         private MaterialPropertyBlock _properties;
         private static readonly int FlashColor = Shader.PropertyToID("_FlashColor");
         private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
 
         private void Awake() => Initialize();
+        private void LateUpdate()
+        {
+            // 受伤这一帧先显示一次，避免低帧率时直接扣完闪色时间。
+            if (_damageJustStarted) { _damageJustStarted = false; return; }
+            TickDamageFlash(Time.deltaTime);
+        }
 
         private bool Initialize()
         {
@@ -42,7 +54,7 @@ namespace Sproutshot.Utils
         public void PlayChase(Vector2 direction, float deltaTime)
         {
             if (!Initialize()) return;
-            if (direction.sqrMagnitude < .000001f) { ResetAll(); return; }
+            if (direction.sqrMagnitude < .000001f) { ResetPose(); return; }
             _chaseTime += Mathf.Max(0, deltaTime);
             float sway = Mathf.Sin(_chaseTime * _swayFrequency * Mathf.PI * 2);
             Pose(direction, Vector2.one, 0, sway * _swayAngle);
@@ -98,16 +110,42 @@ namespace Sproutshot.Utils
             _visual.localScale = new Vector3(_scale.x * shape.x, _scale.y * shape.y, _scale.z);
         }
 
+        /// <summary>受伤闪红独立于移动/攻击姿态，连续受伤刷新计时。</summary>
+        public void PlayDamage()
+        {
+            if (!isActiveAndEnabled || !Initialize()) return;
+            _damageFlashRemaining = Mathf.Max(.01f, _damageFlashDuration);
+            _damageJustStarted = true;
+            ApplyFlash();
+        }
+
+        private void TickDamageFlash(float deltaTime)
+        {
+            if (_damageFlashRemaining <= 0 || deltaTime <= 0) return;
+            _damageFlashRemaining = Mathf.Max(0, _damageFlashRemaining - deltaTime);
+            ApplyFlash();
+        }
+
         private void SetFlash(float amount)
         {
+            _warningAmount = amount;
+            ApplyFlash();
+        }
+
+        private void ApplyFlash()
+        {
             if (_renderer == null) return;
+            bool damaged = _damageFlashRemaining > 0;
+            float amount = damaged ? _damageFlashStrength *
+                Mathf.Clamp01(_damageFlashRemaining / Mathf.Max(.01f, _damageFlashDuration)) : _warningAmount;
             _renderer.GetPropertyBlock(_properties);
-            _properties.SetColor(FlashColor, _warningColor);
+            _properties.SetColor(FlashColor, damaged ? _damageColor : _warningColor);
             _properties.SetFloat(FlashAmount, amount);
             _renderer.SetPropertyBlock(_properties);
         }
 
-        public void ResetAll()
+        /// <summary>状态转换只复原姿态和攻击预警，不取消正在播放的受伤闪红。</summary>
+        public void ResetPose()
         {
             if (!Initialize()) return;
             _chaseTime = 0;
@@ -116,6 +154,13 @@ namespace Sproutshot.Utils
             _visual.localScale = _scale;
             if (_renderer != null) _renderer.color = _color;
             SetFlash(0);
+        }
+
+        public void ResetAll()
+        {
+            _damageFlashRemaining = 0;
+            _damageJustStarted = false;
+            ResetPose();
         }
 
         private void OnDisable() => ResetAll();

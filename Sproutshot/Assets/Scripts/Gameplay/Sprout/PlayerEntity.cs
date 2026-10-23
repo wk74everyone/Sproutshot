@@ -2,14 +2,23 @@ using UnityEngine;
 
 namespace Sproutshot.Gameplay
 {
+    [RequireComponent(typeof(SimpleASC))]
     public class PlayerEntity : Entity
     {
         [SerializeField] private int _attributeId = 1;
         private RunContext _context;
+        private PlayerAnimation _animation;
 
         private void OnEnable()
         {
             if (Application.isPlaying) BindContext();
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            // 兼容还没有配置 ASC 的旧玩家预制体。
+            if (ASC == null) ASC = gameObject.AddComponent<SimpleASC>();
         }
 
         private void Start()
@@ -47,8 +56,18 @@ namespace Sproutshot.Gameplay
 
         public override void TakeDamage(float damage)
         {
+            if (!isActiveAndEnabled || damage <= 0 || float.IsNaN(damage) || float.IsInfinity(damage)) return;
             if (_context != null && _context.PlayerEntity == this && _context.PlayerContext.IsInitialized)
+            {
                 _context.PlayerContext.TakeDamage(damage);
+                Damaged();
+            }
+        }
+
+        protected override void Damaged()
+        {
+            if (_animation == null) _animation = GetComponent<PlayerAnimation>();
+            if (_animation != null) _animation.PlayDamage();
         }
     }
 }

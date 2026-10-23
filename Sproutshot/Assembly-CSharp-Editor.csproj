@@ -23,7 +23,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>UNITY_2022_3_62;UNITY_2022_3;UNITY_2022;TUANJIE_1_10_2;TUANJIE_1_10;TUANJIE_1;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;TUANJIE_2022_3_OR_NEWER;TUANJIE_1_0_OR_NEWER;TUANJIE_1_1_OR_NEWER;TUANJIE_1_2_OR_NEWER;TUANJIE_1_3_OR_NEWER;TUANJIE_1_4_OR_NEWER;TUANJIE_1_5_OR_NEWER;TUANJIE_1_6_OR_NEWER;TUANJIE_1_7_OR_NEWER;TUANJIE_1_8_OR_NEWER;TUANJIE_1_9_OR_NEWER;TUANJIE_1_10_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;PARALLEL_RENDERING;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_NAVIGATION_PACKAGE_DEBUG_VISUALIZATION;ENABLE_NAVIGATION_HEIGHTMESH_RUNTIME_SUPPORT;ENABLE_NAVIGATION_UI_REQUIRES_PACKAGE;ENABLE_SHADER_CHUNKS_UNLOAD;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;UNITY_UGP_API;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;UNITY_GPU_DRIVEN_PIPELINE;UNITY_VIRTUAL_SHADOW_MAP;UNITY_TUANJIEGI;PLATFORM_INITIALIZES_MEMORY_MANAGER_EXPLICITLY;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_SCRIPTS_ENCRYPTION;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_EDITOR_ONLY_COMPILATION</DefineConstants>
+    <DefineConstants>UNITY_2022_3_62;UNITY_2022_3;UNITY_2022;TUANJIE_1_10_2;TUANJIE_1_10;TUANJIE_1;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;TUANJIE_2022_3_OR_NEWER;TUANJIE_1_0_OR_NEWER;TUANJIE_1_1_OR_NEWER;TUANJIE_1_2_OR_NEWER;TUANJIE_1_3_OR_NEWER;TUANJIE_1_4_OR_NEWER;TUANJIE_1_5_OR_NEWER;TUANJIE_1_6_OR_NEWER;TUANJIE_1_7_OR_NEWER;TUANJIE_1_8_OR_NEWER;TUANJIE_1_9_OR_NEWER;TUANJIE_1_10_OR_NEWER;UNITY_INCLUDE_TESTS;ENABLE_AUDIO;ENABLE_CLOTH;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_INSTANTASSET_EDITOR;ENABLE_TEXTURE_MANAGER;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_ENGINE_CODE_STRIPPING;ENABLE_ONSCREEN_KEYBOARD;ENABLE_MANAGED_UNITYTLS;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_NAVIGATION_PACKAGE_DEBUG_VISUALIZATION;ENABLE_NAVIGATION_HEIGHTMESH_RUNTIME_SUPPORT;ENABLE_NAVIGATION_UI_REQUIRES_PACKAGE;ENABLE_SHADER_CHUNKS_UNLOAD;PLATFORM_WEBGL;TEXTCORE_1_0_OR_NEWER;UNITY_WEBGL;UNITY_WEBGL_API;UNITY_DISABLE_WEB_VERIFICATION;UNITY_GFX_USE_PLATFORM_VSYNC;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_SPATIALTRACKING;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_SCRIPTS_ENCRYPTION;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;DOTWEEN;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_EDITOR_ONLY_COMPILATION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169;USG0001</NoWarn>
@@ -51,7 +51,7 @@
     <UnityProjectGeneratorVersion>2.0.22</UnityProjectGeneratorVersion>
     <UnityProjectGeneratorStyle>Legacy</UnityProjectGeneratorStyle>
     <UnityProjectType>Editor:5</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
+    <UnityBuildTarget>WebGL:20</UnityBuildTarget>
     <UnityVersion>2022.3.62t14</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -60,7 +60,7 @@
     <Analyzer Include="D:\TuanJie\Edi\2022.3.62t14\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\SproutStrictSourceUI\Editor\StrictSourceUI.cs" />
+    <Compile Include="Assets\Editor\CardRaffleRestore\CardRafflePanelRestore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -367,6 +367,10 @@
       <HintPath>D:\TuanJie\Edi\2022.3.62t14\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.WebGLModule">
+      <HintPath>D:\TuanJie\Edi\2022.3.62t14\Editor\Data\PlaybackEngines\WebGLSupport\Managed\UnityEngine.WebGLModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.WindModule">
       <HintPath>D:\TuanJie\Edi\2022.3.62t14\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
       <Private>False</Private>
@@ -487,6 +491,10 @@
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.12.4\Lib\Editor\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\Editor\DOTweenEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="OnigwrapPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.12.4\Lib\Editor\TextMateSharp\Onigwrap\OnigwrapPlastic.dll</HintPath>
       <Private>False</Private>
@@ -503,8 +511,12 @@
       <HintPath>Library\PackageCache\com.unity.collab-proxy@2.12.4\Lib\Editor\unityplastic.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Codely.Newtonsoft.Json">
-      <HintPath>.codely.packages\cn.tuanjie.codely.bridge@1.0.85-47f31100\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
+      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.87\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="nunit.framework">
@@ -1035,6 +1047,10 @@
       <HintPath>Library\ScriptAssemblies\UnityEngine.TestRunner.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Codely.Common">
+      <HintPath>Library\ScriptAssemblies\Codely.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.2D.IK.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -1211,6 +1227,14 @@
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Cn.Tuanjie.Codely.Editor">
+      <HintPath>Library\ScriptAssemblies\Cn.Tuanjie.Codely.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityTcp.Editor">
+      <HintPath>Library\ScriptAssemblies\UnityTcp.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
       <Private>False</Private>
@@ -1273,10 +1297,6 @@
       <Project>{FCF083C2-4670-E6F2-8735-9A679EE05922}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="Codely.Common.csproj">
-      <Project>{CED93850-2B18-9D81-8B60-860E3545F410}</Project>
-      <Name>Codely.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="tjgenerators.Editor.csproj">
       <Project>{9DA75D8D-1382-6C38-780F-3196FDD1D408}</Project>
       <Name>tjgenerators.Editor</Name>
@@ -1289,9 +1309,13 @@
       <Project>{77E9773F-1739-6256-BCB9-BD3BADA0A6B3}</Project>
       <Name>MapGen</Name>
     </ProjectReference>
-    <ProjectReference Include="SproutGameplay.csproj">
-      <Project>{2F55C095-F5EA-3771-8EB2-D038202B6E85}</Project>
-      <Name>SproutGameplay</Name>
+    <ProjectReference Include="DOTween.Modules.csproj">
+      <Project>{2BF434A1-631B-1757-97BF-643D7EA7E477}</Project>
+      <Name>DOTween.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="Gameplay.csproj">
+      <Project>{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}</Project>
+      <Name>Gameplay</Name>
     </ProjectReference>
     <ProjectReference Include="LubanTable.csproj">
       <Project>{3F8D27D8-9CB0-C0A1-9E7A-FA3E69AE64A2}</Project>
@@ -1301,17 +1325,9 @@
       <Project>{2AB07667-7575-6F71-C2D1-24107E4BE5CC}</Project>
       <Name>Utils</Name>
     </ProjectReference>
-    <ProjectReference Include="Cn.Tuanjie.Codely.Editor.csproj">
-      <Project>{F2D2348A-00A4-FCE9-0BF0-AE2FF77056D0}</Project>
-      <Name>Cn.Tuanjie.Codely.Editor</Name>
-    </ProjectReference>
     <ProjectReference Include="UI.csproj">
       <Project>{58A6D106-978F-D728-0C84-521C255BD66C}</Project>
       <Name>UI</Name>
-    </ProjectReference>
-    <ProjectReference Include="UnityTcp.Editor.csproj">
-      <Project>{6D2B8094-09D7-A337-554C-B205134ED65C}</Project>
-      <Name>UnityTcp.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="MapGen.Editor.csproj">
       <Project>{C581FE77-7F4F-D0F3-C789-3EE042115377}</Project>

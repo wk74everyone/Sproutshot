@@ -11,6 +11,7 @@ namespace Sproutshot.Gameplay
         private GridMapGenerator _generator;
         private GridMapView _mapView;
         private GridMapData _map;
+        private RunContext _context;
 
         // 每个地图格子里有哪些敌人
         private List<EnemyEntity>[] _buckets;
@@ -42,13 +43,25 @@ namespace Sproutshot.Gameplay
         {
             if (_generator != null)
                 _generator.MapGenerated -= OnMapGenerated;
+            if (_context != null && _context.SpatialGrid == this)
+                _context.SpatialGrid = null;
+            _context = null;
         }
 
         private void OnMapGenerated(GridMapData map)
         {
             // 只接收已经显示到当前 MapView 的地图，避免重复通知清空敌人登记。
-            if (map != null && _mapView.Map == map && !IsInitialized)
+            if (map == null || _mapView.Map != map) return;
+            if (!IsInitialized)
                 Initialize(_mapView);
+
+            // 即使网格已经初始化，重新启用时也恢复对局引用；独立地图预览允许没有对局。
+            RunContext context = RunContext.Current;
+            if (_context != null && _context != context && _context.SpatialGrid == this)
+                _context.SpatialGrid = null;
+            _context = context;
+            if (_context != null)
+                _context.SpatialGrid = this;
         }
 
         public void Initialize(GridMapView mapView)
@@ -121,6 +134,19 @@ namespace Sproutshot.Gameplay
         {
             if (results == null) throw new System.ArgumentNullException(nameof(results));
             results.Clear();
+            QueryCircleInternal(world, radius, results, out _);
+        }
+
+        /// <summary>查询世界 XY 圆内最近的存活敌人中心，不生成列表、不排序；等距时保留先找到的敌人。</summary>
+        public bool TryQueryNearest(Vector3 world, float radius, out EnemyEntity nearest)
+        {
+            QueryCircleInternal(world, radius, null, out nearest);
+            return nearest != null;
+        }
+
+        private void QueryCircleInternal(Vector3 world, float radius, List<EnemyEntity> results, out EnemyEntity nearest)
+        {
+            nearest = null;
             if (!IsInitialized || !Finite(world) || !Finite(radius) || radius < 0) return;
 
             // 将世界圆的包围盒四角转为地图局部坐标；支持地图平移、XY 缩放和 Z 轴旋转。
@@ -147,20 +173,28 @@ namespace Sproutshot.Gameplay
 
             // 极大但有限的半径可能使包围盒溢出，此时扫描全部桶，仍用 double 做精确筛选。
             double radiusSquared = (double)radius * radius;
+            double nearestDistanceSquared = radiusSquared;
             for (int row = bottom; row <= top; row++)
-            for (int col = left; col <= right; col++)
-            {
-                List<EnemyEntity> bucket = _buckets[row * _map.Width + col];
-                for (int i = 0; i < bucket.Count; i++)
+                for (int col = left; col <= right; col++)
                 {
-                    EnemyEntity enemy = bucket[i];
-                    if (enemy == null || !enemy.isActiveAndEnabled || enemy.IsDead) continue;
-                    Vector3 position = enemy.transform.position;
-                    if (!Finite(position)) continue;
-                    double dx = (double)position.x - world.x, dy = (double)position.y - world.y;
-                    if (dx * dx + dy * dy <= radiusSquared) results.Add(enemy);
+                    List<EnemyEntity> bucket = _buckets[row * _map.Width + col];
+                    for (int i = 0; i < bucket.Count; i++)
+                    {
+                        EnemyEntity enemy = bucket[i];
+                        if (enemy == null || !enemy.isActiveAndEnabled || enemy.IsDead) continue;
+                        Vector3 position = enemy.transform.position;
+                        if (!Finite(position)) continue;
+                        double dx = (double)position.x - world.x, dy = (double)position.y - world.y;
+                        double distanceSquared = dx * dx + dy * dy;
+                        if (distanceSquared > radiusSquared) continue;
+                        if (results != null) results.Add(enemy);
+                        else if (nearest == null || distanceSquared < nearestDistanceSquared)
+                        {
+                            nearest = enemy;
+                            nearestDistanceSquared = distanceSquared;
+                        }
+                    }
                 }
-            }
         }
 
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);

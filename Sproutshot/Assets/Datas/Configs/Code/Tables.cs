@@ -18,6 +18,8 @@ public partial class Tables
     public level.tbReward TbReward {get; }
     public growth_tbLevel GrowthTbLevel {get; }
     public entity_tbAttribute EntityTbAttribute {get; }
+    public buff_tbAttribute BuffTbAttribute {get; }
+    public buff_tbHub BuffTbHub {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
@@ -26,6 +28,8 @@ public partial class Tables
         TbReward = new level.tbReward(loader("level_tbreward"));
         GrowthTbLevel = new growth_tbLevel(loader("growth_tblevel"));
         EntityTbAttribute = new entity_tbAttribute(loader("entity_tbattribute"));
+        BuffTbAttribute = new buff_tbAttribute(loader("buff_tbattribute"));
+        BuffTbHub = new buff_tbHub(loader("buff_tbhub"));
         ResolveRef();
     }
     
@@ -36,6 +40,8 @@ public partial class Tables
         TbReward.ResolveRef(this);
         GrowthTbLevel.ResolveRef(this);
         EntityTbAttribute.ResolveRef(this);
+        BuffTbAttribute.ResolveRef(this);
+        BuffTbHub.ResolveRef(this);
     }
 }
 

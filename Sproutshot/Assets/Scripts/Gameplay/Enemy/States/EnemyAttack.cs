@@ -18,16 +18,20 @@ namespace Sproutshot.Gameplay
         private float _elapsed, _distance;
         private Vector2 _direction;
         private Transform _moveRoot;
+        private EnemyEntity _enemyEntity;
         private EnemyAnimation _animation;
         private PlayerEntity _target;
         private RunContext _context;
         private FlowFieldGenerator _flowField;
+        private bool _hasHit;
 
         public override void OnEnter()
         {
+            _hasHit = false;
             _brain = GetComponentInParent<EnemyBrain>();
             if (_brain == null) return;
             _moveRoot = _brain.transform;
+            if (_enemyEntity == null) _enemyEntity = _brain.GetComponent<EnemyEntity>();
             if (_animation == null) _animation = _brain.GetComponent<EnemyAnimation>();
             if (_chaseState == null) _chaseState = _brain.GetComponentInChildren<EnemyChase>(true);
             if (_idleState == null) _idleState = _brain.GetComponentInChildren<EnemyIdle>(true);
@@ -50,7 +54,7 @@ namespace Sproutshot.Gameplay
             _elapsed = 0;
             _target = null;
             _context = null;
-            _animation?.ResetAll();
+            _animation?.ResetPose();
         }
 
         public override void OnUpdate()
@@ -82,7 +86,16 @@ namespace Sproutshot.Gameplay
                         float distance = _distance * ((2 * progress - progress * progress) - (2 * previous - previous * previous));
                         if (_flowField != null && _flowField.isActiveAndEnabled &&
                             _flowField.TryGetStraightMovePosition(_moveRoot.position, _direction, distance, out Vector3 next))
+                        {
                             _moveRoot.position = next;
+                            if (_enemyEntity != null) _enemyEntity.UpdateSpatialPosition();
+                            if (!_hasHit && IsTouchingTarget())
+                            {
+                                // 先标记再扣血，一次扑撞只允许命中一次。
+                                _hasHit = true;
+                                _target.TakeDamage(_enemyEntity.CurrentDamage);
+                            }
+                        }
                         _animation?.PlayLunge(_direction, progress);
                         break;
                     case Phase.Recovery:
@@ -104,6 +117,23 @@ namespace Sproutshot.Gameplay
                 else { Finish(); return; }
                 if (deltaTime <= 0) return;
             }
+        }
+
+        private bool IsTouchingTarget()
+        {
+            PlayerRuntime player = _context.PlayerContext;
+            if (_enemyEntity == null || player == null || !player.IsInitialized) return false;
+
+            // 只看角色根物体的缩放，外观子节点的攻击变形不影响身体半径。
+            Vector3 enemyScale = _enemyEntity.transform.lossyScale;
+            Vector3 playerScale = _target.transform.lossyScale;
+            float enemyRadius = Mathf.Max(0, _enemyEntity.BodyRadius) *
+                Mathf.Max(Mathf.Abs(enemyScale.x), Mathf.Abs(enemyScale.y));
+            float playerRadius = Mathf.Max(0, player.BodyRadius) *
+                Mathf.Max(Mathf.Abs(playerScale.x), Mathf.Abs(playerScale.y));
+            float hitDistance = enemyRadius + playerRadius;
+            Vector2 delta = _target.transform.position - _enemyEntity.transform.position;
+            return delta.sqrMagnitude <= hitDistance * hitDistance;
         }
 
         private void Finish()

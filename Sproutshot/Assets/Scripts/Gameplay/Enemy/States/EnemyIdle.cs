@@ -15,7 +15,7 @@ namespace Sproutshot.Gameplay
             _brain = GetComponentInParent<EnemyBrain>();
             if (_chaseState == null && _brain != null)
                 _chaseState = _brain.GetComponentInChildren<EnemyChase>(true);
-            if (_brain != null) _brain.GetComponent<EnemyAnimation>()?.ResetAll();
+            if (_brain != null) _brain.GetComponent<EnemyAnimation>()?.ResetPose();
             _idling = true;
             _nextCheckTime = 0;
         }

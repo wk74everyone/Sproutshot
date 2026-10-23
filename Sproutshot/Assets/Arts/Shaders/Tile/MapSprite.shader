@@ -4,7 +4,7 @@ Shader "Sproutshot/2D/Map Sprite"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1, 1, 1, 1)
-        [PerRendererData] _FlashColor ("Flash Color", Color) = (1, .25, .04, 1)
+        [PerRendererData] _FlashColor ("Flash Color", Color) = (1, 1, 1, 1)
         [PerRendererData] _FlashAmount ("Flash Amount", Range(0, 1)) = 0
     }
 

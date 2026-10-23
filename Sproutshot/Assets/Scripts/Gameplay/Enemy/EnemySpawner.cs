@@ -25,6 +25,7 @@ namespace Sproutshot.Gameplay
 
         private void Update()
         {
+            if (Time.timeScale <= 0f) return;
             if (_timer <= 0f)
             {
                 SpawnEntity();
@@ -39,15 +40,19 @@ namespace Sproutshot.Gameplay
         private void SpawnEntity()
         {
             if (_entityList.Count == 0 || _entityList[0] == null) return;
+            // 空间网格未就绪时等待下次刷怪，避免生成未登记的敌人。
+            SpatialGrid spatialGrid = RunContext.Current?.SpatialGrid;
+            if (spatialGrid == null || !spatialGrid.isActiveAndEnabled || !spatialGrid.IsInitialized) return;
             EnemyEntity prefab = _entityList[0];
             if (!TryGetSpawnPosition(prefab, out Vector3 position)) return;
 
-            var entity = PoolManager.Instance.Get<Entity>(prefab, position, Quaternion.identity);
+            var entity = PoolManager.Instance.Get<EnemyEntity>(prefab, position, Quaternion.identity);
             // 所有生成的敌人使用本地图的共享流场，不依赖每个敌人自行搜索场景。
             entity.InitialAttribute(11);
             EnemyChase chase = entity.GetComponentInChildren<EnemyChase>();
             if (chase != null)
                 chase.BindFlowField(_flowField);
+            entity.BindSpatialGrid(spatialGrid);
         }
 
         private void ResolveNavigation()

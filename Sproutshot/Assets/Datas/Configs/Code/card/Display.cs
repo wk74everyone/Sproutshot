@@ -20,6 +20,7 @@ public sealed partial class Display : Luban.BeanBase
         Name = _buf.ReadString();
         IconPath = _buf.ReadString();
         Desc = _buf.ReadString();
+        Rarity = (CardRarityType)_buf.ReadInt();
         EffectDesc = _buf.ReadString();
     }
 
@@ -45,6 +46,10 @@ public sealed partial class Display : Luban.BeanBase
     /// </summary>
     public readonly string Desc;
     /// <summary>
+    /// 稀有度
+    /// </summary>
+    public readonly CardRarityType Rarity;
+    /// <summary>
     /// 效果描述
     /// </summary>
     public readonly string EffectDesc;
@@ -63,6 +68,7 @@ public sealed partial class Display : Luban.BeanBase
         + "name:" + Name + ","
         + "iconPath:" + IconPath + ","
         + "desc:" + Desc + ","
+        + "rarity:" + Rarity + ","
         + "effectDesc:" + EffectDesc + ","
         + "}";
     }

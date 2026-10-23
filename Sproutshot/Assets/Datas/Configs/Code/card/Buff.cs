@@ -18,12 +18,9 @@ public sealed partial class Buff : Luban.BeanBase
     {
         Id = _buf.ReadInt();
         Name = _buf.ReadString();
-        Rarity = (CardRarityType)_buf.ReadInt();
         Weight = _buf.ReadInt();
-        MaxStack = _buf.ReadInt();
-        AddStack = _buf.ReadInt();
-        ValuePerStack = _buf.ReadInt();
-        BuffTag = (BuffType)_buf.ReadInt();
+        {int n0 = _buf.ReadSize(); BuffHubId = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); BuffHubId.Add(_e0);}}
+        GetLimitTimes = _buf.ReadInt();
     }
 
     public static Buff DeserializeBuff(ByteBuf _buf)
@@ -40,29 +37,17 @@ public sealed partial class Buff : Luban.BeanBase
     /// </summary>
     public readonly string Name;
     /// <summary>
-    /// 稀有度
-    /// </summary>
-    public readonly CardRarityType Rarity;
-    /// <summary>
     /// 权重
     /// </summary>
     public readonly int Weight;
     /// <summary>
-    /// 最大层数
+    /// 对应的buffs
     /// </summary>
-    public readonly int MaxStack;
+    public readonly System.Collections.Generic.List<int> BuffHubId;
     /// <summary>
-    /// 增加层数
+    /// 一局获取的上限（-1为无限获取）
     /// </summary>
-    public readonly int AddStack;
-    /// <summary>
-    /// 每层增加的数值
-    /// </summary>
-    public readonly int ValuePerStack;
-    /// <summary>
-    /// Buff类型
-    /// </summary>
-    public readonly BuffType BuffTag;
+    public readonly int GetLimitTimes;
    
     public const int __ID__ = -291771247;
     public override int GetTypeId() => __ID__;
@@ -76,12 +61,9 @@ public sealed partial class Buff : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "name:" + Name + ","
-        + "rarity:" + Rarity + ","
         + "weight:" + Weight + ","
-        + "maxStack:" + MaxStack + ","
-        + "addStack:" + AddStack + ","
-        + "valuePerStack:" + ValuePerStack + ","
-        + "BuffTag:" + BuffTag + ","
+        + "buffHubId:" + Luban.StringUtil.CollectionToString(BuffHubId) + ","
+        + "getLimitTimes:" + GetLimitTimes + ","
         + "}";
     }
 }

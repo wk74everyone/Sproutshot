@@ -49,6 +49,8 @@ MonoBehaviour:
   speed: 14
   maxDistance: 12
   lifeTime: 2
+  _seekRadius: 8
+  _retargetInterval: 0.15
 --- !u!1 &7428374946910731073
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Gameplay\Entity.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BulletBase.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyDeath.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Runtime\PlayerRuntime.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Sprout\PlayerEntity.cs" />
@@ -70,13 +71,18 @@
     <Compile Include="Assets\Scripts\Gameplay\Runtime\LevelRuntime.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Sprout\BulletLauncher.cs" />
     <Compile Include="Assets\Scripts\Gameplay\BattleRoot.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\SimpleASC.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyChase.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Gameplay\RunContext.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\AttributeSet.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SpaceManaged\SpatialGrid.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\IBullet.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\GameplayEvents.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemyEntity.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemySpawner.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Sprout\PlayerAnimation.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\ActiveBuff.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\BuffDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Gameplay\Gameplay.asmdef" />
@@ -483,7 +489,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Codely.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.86\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
+      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.87\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.OpenHarmony.Types">

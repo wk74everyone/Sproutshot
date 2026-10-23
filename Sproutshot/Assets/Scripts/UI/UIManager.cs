@@ -51,6 +51,14 @@ namespace Sproutshot.UI
             EnsureInitialized();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                CardRafflePanelView.Open();
+            }
+        }
+
         /// <summary>预先创建 Canvas 根节点；不调用也会在首次 Open 时自动执行。</summary>
         public void EnsureInitialized()
         {

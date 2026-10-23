@@ -16,9 +16,12 @@ namespace cfg
     /// </summary>
     public enum BuffType
     {
-        LaunchDistance = 0,
-        DestinationSpread = 1,
-        Rebound = 2,
+        Value = 0,
+        Bullet = 1,
+        /// <summary>
+        /// 持续增加的数值
+        /// </summary>
+        ContinusValue = 2,
     }
 
 } 

@@ -8,6 +8,8 @@ namespace Sproutshot.Gameplay
         public LevelRuntime LevelContext;
         public PlayerEntity PlayerEntity;
 
+        public SpatialGrid SpatialGrid;
+
         public RunContext()
         {
             PlayerContext = new PlayerRuntime();

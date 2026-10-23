@@ -289,7 +289,10 @@ MonoBehaviour:
   _swayAngle: 5
   _swayFrequency: 3
   _pullback: 0.08
-  _warningColor: {r: 1, g: 0.25, b: 0.04, a: 1}
+  _warningColor: {r: 1, g: 1, b: 1, a: 1}
+  _damageColor: {r: 1, g: 0, b: 0, a: 1}
+  _damageFlashDuration: 0.12
+  _damageFlashStrength: 0.85
 --- !u!114 &3132269136100701684
 MonoBehaviour:
   m_ObjectHideFlags: 0

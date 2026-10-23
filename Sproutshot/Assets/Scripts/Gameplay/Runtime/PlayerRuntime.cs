@@ -14,6 +14,20 @@ namespace Sproutshot.Gameplay
         private float _maxSpeed;
         private float _currentDamage;
         private float _maxDamage;
+        // 其他的属性
+        public int BulletCount
+        {
+            get
+            {
+                var player = RunContext.Current?.PlayerEntity;
+                // 尚未绑定 Buff 组件时，基础射击仍然可用。
+                if (player == null || player.ASC == null) return 1;
+
+                var asc = player.ASC;
+                // 子弹数量，无论什么时候，最开始都是1个
+                return asc.Attributes.GetValue(1, cfg.ValueBonusType.BulletCount, (value, bonus) => Mathf.RoundToInt(value + bonus));
+            }
+        }
 
         public float LauncherDeltaTime;
         public string BulletPrefabPath;
@@ -22,6 +36,9 @@ namespace Sproutshot.Gameplay
         private float _bodyRadius;
 
         public bool IsInitialized { get; private set; }
+        public float CurrentDamage => _currentDamage;
+        /// <summary>配置表中的身体半径，使用角色根物体缩放前的局部单位。</summary>
+        public float BodyRadius => _bodyRadius;
 
         public void InitialAttribute(int id = 1)
         {
