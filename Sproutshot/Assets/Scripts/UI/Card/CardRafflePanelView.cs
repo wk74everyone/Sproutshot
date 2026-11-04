@@ -31,6 +31,9 @@ namespace Sproutshot.UI
         /// <summary>资源包已由游戏启动流程初始化后调用。选中并确认时回传配置 ID，默认关闭界面。</summary>
         public static CardRafflePanelView Open(Action<int> onConfirmed = null, bool closeOnConfirmed = true)
         {
+            // E 键和经验入口共用此方法；重复打开不能重抽当前候选或替换确认回调。
+            if (UIManager.Instance.TryGet<CardRafflePanelView>(out var existing) && existing.IsOpen && !existing.IsConfirmed)
+                return existing;
             var args = new OpenArgs(onConfirmed, closeOnConfirmed);
             return UIManager.Instance.Open<CardRafflePanelView>(args);
         }
@@ -110,6 +113,8 @@ namespace Sproutshot.UI
         private bool _isEntering;
         private bool _ownsPause;
         private float _previousTimeScale;
+        private RunContext _runContext;
+        public bool HasOffer => _hasOffer;
 
         protected override void OnCreated()
         {
@@ -129,6 +134,7 @@ namespace Sproutshot.UI
                 BindClick(choices[i].button, () => Select(index));
             }
             BindClick(confirmButton, Confirm);
+            AudioButtonFeedback.SetSilent(confirmButton, true);
             ClearChoices();
             Refresh();
         }
@@ -148,6 +154,7 @@ namespace Sproutshot.UI
             var options = args as OpenArgs;
             _openVersion++;
             _tables = LoadTables();
+            _runContext = RunContext.Current;
             _confirmationCallback = options?.OnConfirmed;
             _closeOnConfirmed = options?.CloseOnConfirmed ?? true;
             PauseGame();
@@ -196,7 +203,8 @@ namespace Sproutshot.UI
             int slotCount = 0;
             if (choices != null) foreach (Choice choice in choices)
                 if (choice != null && choice.button != null) slotCount++;
-            cfg.card.Display[] cards = DrawCards(_tables, slotCount, _random);
+            cfg.card.Display[] cards = DrawCards(_tables, slotCount, _random,
+                _runContext?.PlayerContext.ProfessionId ?? HeroProfessionCatalog.DefaultProfessionId, _runContext?.Cards);
             int next = 0;
             if (choices != null) foreach (Choice choice in choices)
             {
@@ -204,7 +212,7 @@ namespace Sproutshot.UI
                 Bind(choice, cards[next++]);
             }
             _hasOffer = cards.Length > 0;
-            if (!_hasOffer) _status = "暂无可选卡牌";
+            if (!_hasOffer) _status = "当前职业暂无可选卡牌，或本局已达到获取上限";
             if (Application.isPlaying && _hasOffer) PlayEntranceAnimation();
             Refresh();
         }
@@ -261,15 +269,17 @@ namespace Sproutshot.UI
             }
         }
 
-        /// <summary>只按配置权重抽取，不累计获取次数；同一轮候选不重复。</summary>
-        internal static cfg.card.Display[] DrawCards(Tables tables, int count, System.Random random)
+        /// <summary>先按本局职业和领取上限过滤，再按权重不放回抽取。</summary>
+        internal static cfg.card.Display[] DrawCards(Tables tables, int count, System.Random random,
+            int professionId = HeroProfessionCatalog.DefaultProfessionId, CardRuntime acquired = null)
         {
             if (count <= 0) return Array.Empty<cfg.card.Display>();
+            var eligibility = acquired ?? new CardRuntime();
             var candidates = new List<cfg.card.Buff>();
             long totalWeight = 0;
             foreach (cfg.card.Buff buff in tables.TbBuff.DataList)
             {
-                if (buff.Weight <= 0 || tables.TbDisplay.GetOrDefault(buff.Id) == null) continue;
+                if (!eligibility.CanAcquire(buff, professionId) || tables.TbDisplay.GetOrDefault(buff.Id) == null) continue;
                 candidates.Add(buff);
                 totalWeight += buff.Weight;
             }
@@ -374,13 +384,46 @@ namespace Sproutshot.UI
 
         public void Confirm()
         {
-            if (!IsOpen || _isEntering || IsConfirmed || !_hasOffer || SelectedCardId < 0) return;
+            if (!IsOpen || _isEntering || IsConfirmed) return;
+            if (!_hasOffer)
+            {
+                if (Application.isPlaying) AudioManager.Instance.PlaySfx(AudioId.UiTap);
+                // 卡池耗尽也能离开，且不发布无效卡牌 ID 或增加获取次数。
+                IsConfirmed = true;
+                int emptyVersion = _openVersion;
+                var emptyCallback = _confirmationCallback;
+                try { emptyCallback?.Invoke(-1); }
+                finally { if (this != null && IsOpen && emptyVersion == _openVersion) CloseSelf(); }
+                return;
+            }
+            if (SelectedCardId < 0) return;
+            if (Application.isPlaying && _runContext != RunContext.Current) { CloseSelf(); return; }
             int cardId = SelectedCardId;
-            IsConfirmed = true;
-            Refresh();
+            bool commitToBattle = Application.isPlaying && _runContext != null;
+            var card = _tables.TbBuff.GetOrDefault(cardId);
+            if (commitToBattle && (!_runContext.Cards.CanAcquire(card, _runContext.PlayerContext.ProfessionId) ||
+                !_runContext.PlayerContext.IsInitialized || _runContext.LevelContext.IsStopped || _runContext.PlayerContext.CurrentHp <= 0))
+            {
+                DrawChoices();
+                return;
+            }
+            int acquiredBefore = _runContext?.Cards.GetAcquiredCount(cardId) ?? 0;
+            var context = _runContext;
             int version = _openVersion;
             bool close = _closeOnConfirmed;
             Action<int> callback = _confirmationCallback;
+            IsConfirmed = true;
+            // 事件同步交给 BattleRoot 校验、记录和应用；下一轮回调必须看到更新后的次数。
+            EventBus.Publish(new OnCardSelectedEvent(cardId, context));
+            if (commitToBattle && context.Cards.GetAcquiredCount(cardId) != acquiredBefore + 1)
+            {
+                IsConfirmed = false;
+                selectedIndex = -1;
+                _status = "卡牌未能领取，请检查效果配置后重试";
+                Refresh();
+                return;
+            }
+            if (this != null && IsOpen && version == _openVersion) Refresh();
             try
             {
                 onConfirmed?.Invoke(cardId);
@@ -390,7 +433,6 @@ namespace Sproutshot.UI
             {
                 // 回调可以立即打开下一轮，不能把回调新打开的界面一并关闭。
                 if (close && this != null && IsOpen && version == _openVersion) CloseSelf();
-                EventBus.Publish<OnCardSelectedEvent>(new OnCardSelectedEvent(cardId));
             }
         }
 
@@ -417,9 +459,9 @@ namespace Sproutshot.UI
             SetText(lore, hasChoice ? choices[selectedIndex].lore : "");
             ConfigureText(detailBody);
             ConfigureText(lore);
-            SetText(confirmLabel, IsConfirmed && hasChoice ? "已获得 · " + choices[selectedIndex].title : hasChoice ? "带上这份力量" : _status ?? "请选择一张卡牌");
+            SetText(confirmLabel, !_hasOffer ? "继续战斗" : IsConfirmed && hasChoice ? "已获得 · " + choices[selectedIndex].title : hasChoice ? "带上这份力量" : _status ?? "请选择一张卡牌");
             SetText(note, IsConfirmed ? "卡牌已加入本次冒险" : _hasOffer ? "本次只能选择一张" : "");
-            if (confirmButton != null) confirmButton.interactable = IsOpen && !_isEntering && hasChoice && !IsConfirmed;
+            if (confirmButton != null) confirmButton.interactable = IsOpen && !_isEntering && (hasChoice || !_hasOffer) && !IsConfirmed;
         }
 
         private static void SetText(TMP_Text text, string value)
@@ -450,6 +492,7 @@ namespace Sproutshot.UI
             ResumeGame();
             _confirmationCallback = null;
             _tables = null;
+            _runContext = null;
             _closeOnConfirmed = false;
             _status = null;
             ClearChoices();

@@ -11,11 +11,14 @@ namespace Sproutshot.Gameplay
         [SerializeField, Min(.01f)] private float _fireInterval = 3f;
         [SerializeField, Min(.02f)] private float _searchInterval = .15f;
 
+        public int LaunchCounter { get; private set; }
+
         private WaitForSeconds _delayBulletSpawn = new WaitForSeconds(0.2f);
 
         private float _timer;
         private float _searchTimer;
         private bool _isLaunching;
+        private RunContext _counterContext;
 
         private void OnEnable()
         {
@@ -51,12 +54,14 @@ namespace Sproutshot.Gameplay
         {
             _isLaunching = true;
             bool fired = false;
+            BulletSalvo salvo = null;
 
             try
             {
                 RunContext context = RunContext.Current;
                 if (context == null || context.PlayerContext == null ||
-                    context.PlayerEntity == null) yield break;
+                    context.PlayerEntity == null || context.LevelContext.IsStopped ||
+                    !context.PlayerContext.IsInitialized || context.PlayerContext.CurrentHp <= 0) yield break;
 
                 SpatialGrid grid = context.SpatialGrid;
                 if (grid == null || !grid.isActiveAndEnabled || !grid.IsInitialized) yield break;
@@ -66,13 +71,27 @@ namespace Sproutshot.Gameplay
                 for (int i = 0; i < bulletCount; i++)
                 {
                     if (!isActiveAndEnabled || RunContext.Current != context || grid == null ||
-                        !grid.isActiveAndEnabled || !grid.IsInitialized || _bullet == null) yield break;
+                        !grid.isActiveAndEnabled || !grid.IsInitialized || _bullet == null ||
+                        context.PlayerEntity == null || context.PlayerContext.CurrentHp <= 0 ||
+                        context.LevelContext.IsStopped) yield break;
 
                     Vector3 position = _shootPoint != null ? _shootPoint.position : transform.position;
-                    if (!grid.TryQueryNearest(position, _bullet.SeekRadius, out EnemyEntity target)) yield break;
+                    if (!grid.TryQueryNearestVisible(position, _bullet.SeekRadius, Camera.main, out EnemyEntity target)) yield break;
 
                     PlayerBullet bullet = PoolManager.Instance.Get(_bullet, position, Quaternion.identity);
-                    bullet.Launch(target);
+                    // 确认有目标后才准备本轮状态；所有子弹共享同一份触发记录。
+                    if (salvo == null)
+                        salvo = new BulletSalvo(context, context.PlayerEntity,
+                            _counterContext != context || LaunchCounter == int.MaxValue ? 1 : LaunchCounter + 1);
+                    // 每一发在 Launch 内先重置，再从实际主人复制 Buff，避免连发沿用旧快照。
+                    if (!bullet.TryLaunch(context.PlayerEntity, target, context.PlayerContext.CurrentDamage, salvo))
+                        yield break;
+                    if (!fired)
+                    {
+                        AudioManager.Instance.PlaySfx(AudioId.SeedShoot);
+                        LaunchCounter = salvo.Number;
+                        _counterContext = context;
+                    }
                     fired = true;
                     yield return _delayBulletSpawn;
                 }

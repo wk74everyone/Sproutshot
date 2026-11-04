@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b859abdf0266682532c8c36fd4caf5f8, type: 3}
+  m_Name: AudioCatalog
+  m_EditorClassIdentifier: 
+  MusicGroup: {fileID: 24300001, guid: 37c1a5d920eaa7b48b0b4ac47cb86efe, type: 2}
+  UIGroup: {fileID: 24300003, guid: 37c1a5d920eaa7b48b0b4ac47cb86efe, type: 2}
+  CombatGroup: {fileID: 24300004, guid: 37c1a5d920eaa7b48b0b4ac47cb86efe, type: 2}
+  AmbienceGroup: {fileID: 24300005, guid: 37c1a5d920eaa7b48b0b4ac47cb86efe, type: 2}
+  Entries:
+  - Id: 1
+    Addresses:
+    - 林间微光_主界面_72BPM_80s
+    Bus: 0
+    Scope: 0
+    PausePolicy: 0
+    Volume: 0.8
+    PitchRange: {x: 1, y: 1}
+    Loop: 1
+    MaxInstances: 1
+    Cooldown: 0
+    Priority: 0
+  - Id: 2
+    Addresses:
+    - 芽林守望_燃战版_128BPM_60s
+    Bus: 0
+    Scope: 0
+    PausePolicy: 0
+    Volume: 0.75
+    PitchRange: {x: 1, y: 1}
+    Loop: 1
+    MaxInstances: 1
+    Cooldown: 0
+    Priority: 0
+  - Id: 3
+    Addresses:
+    - sfx_ui_tap
+    Bus: 1
+    Scope: 0
+    PausePolicy: 0
+    Volume: 0.65
+    PitchRange: {x: 0.98, y: 1.02}
+    Loop: 0
+    MaxInstances: 3
+    Cooldown: 0.04
+    Priority: 32
+  - Id: 4
+    Addresses:
+    - sfx_seed_shoot
+    Bus: 2
+    Scope: 2
+    PausePolicy: 1
+    Volume: 0.55
+    PitchRange: {x: 0.95, y: 1.05}
+    Loop: 0
+    MaxInstances: 3
+    Cooldown: 0.08
+    Priority: 160
+  - Id: 5
+    Addresses:
+    - sfx_enemy_hit
+    Bus: 2
+    Scope: 2
+    PausePolicy: 1
+    Volume: 0.5
+    PitchRange: {x: 0.94, y: 1.06}
+    Loop: 0
+    MaxInstances: 4
+    Cooldown: 0.065
+    Priority: 180
+  - Id: 6
+    Addresses:
+    - sfx_player_hurt
+    Bus: 2
+    Scope: 2
+    PausePolicy: 1
+    Volume: 0.9
+    PitchRange: {x: 1, y: 1}
+    Loop: 0
+    MaxInstances: 2
+    Cooldown: 0.15
+    Priority: 16
+  - Id: 7
+    Addresses:
+    - sfx_magic_burst
+    Bus: 2
+    Scope: 2
+    PausePolicy: 1
+    Volume: 0.65
+    PitchRange: {x: 0.96, y: 1.04}
+    Loop: 0
+    MaxInstances: 3
+    Cooldown: 0.15
+    Priority: 96
+  - Id: 8
+    Addresses:
+    - sfx_positive_chime
+    Bus: 1
+    Scope: 0
+    PausePolicy: 0
+    Volume: 0.7
+    PitchRange: {x: 1, y: 1}
+    Loop: 0
+    MaxInstances: 1
+    Cooldown: 0.4
+    Priority: 24
+  - Id: 9
+    Addresses:
+    - summon_bubbles_gulu
+    Bus: 1
+    Scope: 1
+    PausePolicy: 0
+    Volume: 0.8
+    PitchRange: {x: 1, y: 1}
+    Loop: 0
+    MaxInstances: 1
+    Cooldown: 0
+    Priority: 48
+  - Id: 10
+    Addresses:
+    - summon_spirit_pop
+    Bus: 1
+    Scope: 1
+    PausePolicy: 0
+    Volume: 0.8
+    PitchRange: {x: 1, y: 1}
+    Loop: 0
+    MaxInstances: 2
+    Cooldown: 0
+    Priority: 32
+  - Id: 11
+    Addresses:
+    - sfx_positive_chime
+    Bus: 1
+    Scope: 0
+    PausePolicy: 0
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Loop: 0
+    MaxInstances: 1
+    Cooldown: 0.2
+    Priority: 8
+  - Id: 12
+    Addresses:
+    - sfx_player_hurt
+    Bus: 1
+    Scope: 0
+    PausePolicy: 0
+    Volume: 0.8
+    PitchRange: {x: 0.75, y: 0.75}
+    Loop: 0
+    MaxInstances: 1
+    Cooldown: 0.2
+    Priority: 8
+  - Id: 13
+    Addresses:
+    - sfx_enemy_hit
+    Bus: 2
+    Scope: 2
+    PausePolicy: 1
+    Volume: 0.28
+    PitchRange: {x: 1.15, y: 1.15}
+    Loop: 0
+    MaxInstances: 2
+    Cooldown: 0.15
+    Priority: 24
+  - Id: 14
+    Addresses:
+    - summon_spirit_pop
+    Bus: 2
+    Scope: 2
+    PausePolicy: 1
+    Volume: 0.32
+    PitchRange: {x: 1, y: 1}
+    Loop: 0
+    MaxInstances: 1
+    Cooldown: 1.2
+    Priority: 80
+  - Id: 15
+    Addresses:
+    - summon_spirit_pop
+    Bus: 2
+    Scope: 2
+    PausePolicy: 1
+    Volume: 0.55
+    PitchRange: {x: 1, y: 1}
+    Loop: 0
+    MaxInstances: 1
+    Cooldown: 0.3
+    Priority: 64

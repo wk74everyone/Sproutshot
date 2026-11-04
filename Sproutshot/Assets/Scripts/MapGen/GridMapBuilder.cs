@@ -12,20 +12,26 @@ namespace Sproutshot.MapGen
             var map = new GridMapData(rules.Width, rules.Height, seed, rules.Theme, rules.CellSize, rules.ArtScale)
             {
                 SpawnClearRadius = rules.SpawnClearRadius * rules.ArtScale,
-                CorridorHalfWidth = rules.CorridorHalfWidth * rules.ArtScale
+                CorridorHalfWidth = rules.CorridorHalfWidth * rules.ArtScale,
+                BoundaryInset = Math.Min(rules.EdgeInset * rules.ArtScale,Math.Min(rules.Width * rules.CellSize,rules.Height * rules.CellSize) * .12f)
             };
             var random = new MapRandom(seed);
             var noise = new SeededNoise(seed);
-            BuildCores(map, rules, random);
+            // 生存战不再放置污染核心；敌人由独立的镜头外刷怪器生成。
             BuildTerrain(map, noise);
             BuildPathDecals(map, random);
             // Keep object counts independent of the terrain sampling resolution.
             // Reference area matches the authored art scale and existing combat density.
             float densityUnits = map.Area / (2.75f * map.ArtScale * map.ArtScale);
-            PlaceScattered(map, random, MapObjectCategory.Landmark, rules.DensityScale <= 0 ? 0 : 2, true);
-            PlaceScattered(map, random, MapObjectCategory.Obstacle, (int)(densityUnits * .045f * rules.DensityScale), true);
-            PlaceScattered(map, random, MapObjectCategory.Decal, (int)(densityUnits * .035f * rules.DensityScale), false);
-            PlaceScattered(map, random, MapObjectCategory.Decoration, (int)(densityUnits * .15f * rules.DensityScale), false);
+            float blockers = rules.DensityScale * rules.ObstacleDensityScale;
+            float decoration = rules.DensityScale * rules.DecorationDensityScale;
+            // 先给少量池塘预留障碍预算，避免植被用光预算后整张地图不再有水体。
+            if ((map.Theme == MapTheme.Forest || map.Theme == MapTheme.Wetland) && decoration > 0)
+                PlaceScattered(map, random, MapObjectCategory.Decal, Math.Min(3,Math.Max(1,(int)(densityUnits * .008f * decoration))),false,true);
+            PlaceScattered(map, random, MapObjectCategory.Landmark, blockers <= 0 ? 0 : 2, true);
+            PlaceScattered(map, random, MapObjectCategory.Obstacle, (int)(densityUnits * .028f * blockers), true);
+            PlaceScattered(map, random, MapObjectCategory.Decal, (int)(densityUnits * .06f * decoration), false);
+            PlaceScattered(map, random, MapObjectCategory.Decoration, (int)(densityUnits * .40f * decoration), false);
             // Base navigation is ready before map-generated events. Actor radii are cached on first use.
             map.GetNavigationGrid();
             return map;
@@ -97,7 +103,7 @@ namespace Sproutshot.MapGen
             }
         }
 
-        private static void PlaceScattered(GridMapData map, MapRandom random, MapObjectCategory category, int count, bool biasEdges)
+        private static void PlaceScattered(GridMapData map, MapRandom random, MapObjectCategory category, int count, bool biasEdges, bool waterOnly = false)
         {
             int variants = category == MapObjectCategory.Decoration ? 6 :
                 category == MapObjectCategory.Landmark ? 2 : 4;
@@ -105,16 +111,23 @@ namespace Sproutshot.MapGen
             for (int attempt = 0; attempt < attempts && placed < count; attempt++)
             {
                 int variant = placed % variants;
+                if (category == MapObjectCategory.Decal) {
+                    if (waterOnly) variant = map.Theme == MapTheme.Forest ? 3 : 2 + placed % 2;
+                    else if (map.Theme == MapTheme.Forest && variant == 3) variant = 1;
+                    else if (map.Theme == MapTheme.Wetland) variant %= 2;
+                }
                 var point = RandomPoint(map, random, biasEdges);
                 float width = WidthFor(map, category, variant) * (.88f + (float)random.Unit() * .24f);
-                bool blocking = category == MapObjectCategory.Obstacle || category == MapObjectCategory.Landmark;
-                if (category == MapObjectCategory.Decal &&
-                    ((map.Theme == MapTheme.Forest && variant == 3) || (map.Theme == MapTheme.Wetland && variant == 3))) blocking = true;
+                bool blocking = waterOnly || category == MapObjectCategory.Obstacle || category == MapObjectCategory.Landmark;
                 float radius = category == MapObjectCategory.Decoration ? width * .30f :
                     category == MapObjectCategory.Decal ? width * .34f : width * .25f;
+                if (waterOnly) radius = width * .42f;
                 if (!map.ContainsPoint(point, radius + map.ArtScale * .35f)) continue;
                 if (blocking && map.IsReservedForCombat(point, radius + .2f * map.ArtScale)) continue;
-                if (category != MapObjectCategory.Decal && map.IsReservedForCombat(point, radius * .25f)) continue;
+                // 小花草可点缀通路，仅避开出生圈；不让增加装饰重新挤掉通路。
+                if (category == MapObjectCategory.Decoration && MapPoint.DistanceSquared(point, map.SpawnPosition) <
+                    map.SpawnClearRadius * map.SpawnClearRadius) continue;
+                if (blocking && !FitsBlockingBudget(map, radius)) continue;
                 if (Overlaps(map, point, radius, category)) continue;
                 var p = NewPlacement(map, category, variant, point, width, radius, blocking);
                 if (category == MapObjectCategory.Decal)
@@ -134,7 +147,7 @@ namespace Sproutshot.MapGen
             {
                 case MapObjectCategory.Decoration: return r * (variant < 2 ? .8f : .65f);
                 case MapObjectCategory.Obstacle: return r * (variant < 2 ? 2.2f : 1.8f);
-                case MapObjectCategory.Landmark: return r * 3.8f;
+                case MapObjectCategory.Landmark: return r * 3.0f;
                 case MapObjectCategory.Decal: return r * (variant == 3 || (map.Theme == MapTheme.Wetland && variant == 2) ? 4.2f : 3.1f);
                 default: return r * 2.8f;
             }
@@ -158,12 +171,24 @@ namespace Sproutshot.MapGen
                 map.MinY + (float)y * (map.MaxY - map.MinY));
         }
 
+        private static bool FitsBlockingBudget(GridMapData map, float radius)
+        {
+            // 按现有敌人流场半径计算保守面积上限；装饰数量不参与通行预算。
+            const float clearance = .54f;
+            double occupied = Math.PI * (radius + clearance) * (radius + clearance);
+            foreach (var item in map.Placements)
+                if (item.BlocksMovement)
+                    occupied += Math.PI * (item.FootprintRadius + clearance) * (item.FootprintRadius + clearance);
+            double interior = Math.Max(0, map.WalkableMaxX - map.WalkableMinX - clearance * 2) * Math.Max(0, map.WalkableMaxY - map.WalkableMinY - clearance * 2);
+            return occupied <= interior * .12;
+        }
+
         private static bool Overlaps(GridMapData map, MapPoint point, float radius, MapObjectCategory category)
         {
             foreach (MapPlacement p in map.Placements)
             {
-                // Ground patches may blend with one another. Keep the core and other physical objects clear.
-                if (category == MapObjectCategory.Decal && p.Category == MapObjectCategory.Decal) continue;
+                // 普通地面贴花可以混合，池塘与其他实体障碍要留出间距。
+                if (category == MapObjectCategory.Decal && p.Category == MapObjectCategory.Decal && !p.BlocksMovement) continue;
                 if (p.Category == MapObjectCategory.Decal && !p.BlocksMovement) continue;
                 float spacing = radius + p.FootprintRadius + .15f * map.ArtScale;
                 if (MapPoint.DistanceSquared(point, p.Position) < spacing * spacing) return true;

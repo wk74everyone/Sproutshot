@@ -24,6 +24,8 @@ public sealed partial class buff_attribute : Luban.BeanBase
         Bonus = _buf.ReadFloat();
         BuffType = (BuffType)_buf.ReadInt();
         ValueBonusType = (ValueBonusType)_buf.ReadInt();
+        MaxBonus = _buf.ReadFloat();
+        PeriodicValueMode = _buf.ReadInt();
     }
 
     public static buff_attribute Deserializebuff_attribute(ByteBuf _buf)
@@ -63,6 +65,14 @@ public sealed partial class buff_attribute : Luban.BeanBase
     /// 加成区域（None为非数值加成）
     /// </summary>
     public readonly ValueBonusType ValueBonusType;
+    /// <summary>
+    /// 累计增幅上限，0表示不使用
+    /// </summary>
+    public readonly float MaxBonus;
+    /// <summary>
+    /// 数值来源(0固定数值，1最大生命比例，2代码传入数值)
+    /// </summary>
+    public readonly int PeriodicValueMode;
    
     public const int __ID__ = -2068256336;
     public override int GetTypeId() => __ID__;
@@ -82,6 +92,8 @@ public sealed partial class buff_attribute : Luban.BeanBase
         + "bonus:" + Bonus + ","
         + "BuffType:" + BuffType + ","
         + "ValueBonusType:" + ValueBonusType + ","
+        + "maxBonus:" + MaxBonus + ","
+        + "periodicValueMode:" + PeriodicValueMode + ","
         + "}";
     }
 }

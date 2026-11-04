@@ -30,12 +30,12 @@ namespace Sproutshot.UI
             if (_mapPanel == null || _mapPanel.gameObject.activeSelf)
                 return;
 
-            ProceduralAnimation.DoPanelVisibility(_mapPanel, true, 0.25f, rotate: false);
+            ProceduralAnimation.DoPanelVisibility(_mapPanel, true, 0.25f, Vector2.zero);
         }
 
         public void CloseMap(float duration)
         {
-            ProceduralAnimation.DoPanelVisibility(_mapPanel, false, duration, rotate: false);
+            ProceduralAnimation.DoPanelVisibility(_mapPanel, false, duration, Vector2.zero);
         }
     }
 }

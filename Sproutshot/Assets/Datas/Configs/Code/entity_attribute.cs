@@ -20,10 +20,13 @@ public sealed partial class entity_attribute : Luban.BeanBase
         Name = _buf.ReadString();
         Damage = _buf.ReadInt();
         Speed = _buf.ReadFloat();
-        Defense = _buf.ReadFloat();
+        Defense = _buf.ReadInt();
         Hp = _buf.ReadInt();
         BodyRadius = _buf.ReadFloat();
         AttackDistance = _buf.ReadFloat();
+        IconPath = _buf.ReadString();
+        ExpDrop = _buf.ReadInt();
+        {int n0 = _buf.ReadSize(); OwnedSkill = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); OwnedSkill.Add(_e0);}}
     }
 
     public static entity_attribute Deserializeentity_attribute(ByteBuf _buf)
@@ -50,7 +53,7 @@ public sealed partial class entity_attribute : Luban.BeanBase
     /// <summary>
     /// 防御
     /// </summary>
-    public readonly float Defense;
+    public readonly int Defense;
     /// <summary>
     /// 血量
     /// </summary>
@@ -60,9 +63,21 @@ public sealed partial class entity_attribute : Luban.BeanBase
     /// </summary>
     public readonly float BodyRadius;
     /// <summary>
-    /// 攻击距离
+    /// 攻击距离（-1为远程）
     /// </summary>
     public readonly float AttackDistance;
+    /// <summary>
+    /// 立绘地址
+    /// </summary>
+    public readonly string IconPath;
+    /// <summary>
+    /// 掉落经验
+    /// </summary>
+    public readonly int ExpDrop;
+    /// <summary>
+    /// 拥有的技能
+    /// </summary>
+    public readonly System.Collections.Generic.List<int> OwnedSkill;
    
     public const int __ID__ = 1269909824;
     public override int GetTypeId() => __ID__;
@@ -82,6 +97,9 @@ public sealed partial class entity_attribute : Luban.BeanBase
         + "hp:" + Hp + ","
         + "bodyRadius:" + BodyRadius + ","
         + "attackDistance:" + AttackDistance + ","
+        + "iconPath:" + IconPath + ","
+        + "expDrop:" + ExpDrop + ","
+        + "ownedSkill:" + Luban.StringUtil.CollectionToString(OwnedSkill) + ","
         + "}";
     }
 }

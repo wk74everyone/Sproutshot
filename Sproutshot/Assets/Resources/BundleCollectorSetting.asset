@@ -54,6 +54,14 @@ MonoBehaviour:
       - CollectPath: Assets/Arts/Sprites/Sprout
         CollectorGUID: 
         CollectorType: 0
+        AddressRuleName: AddressByFolderAndFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Arts/Sprites/Enemy/nest_pollution_54.png
+        CollectorGUID: 
+        CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
@@ -147,13 +155,13 @@ MonoBehaviour:
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/Arts/Prefabs/Enemy/PollutionCore.prefab
-        CollectorGUID:
+        CollectorGUID: 
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
         FilterRuleName: CollectPrefab
-        AssetTags:
-        UserData:
+        AssetTags: 
+        UserData: 
       - CollectPath: Assets/Arts/Prefabs/Characters
         CollectorGUID: c9cdf78a577e15048a9747a41e9f1fdb
         CollectorType: 0

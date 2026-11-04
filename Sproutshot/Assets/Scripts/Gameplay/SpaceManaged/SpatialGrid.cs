@@ -18,6 +18,8 @@ namespace Sproutshot.Gameplay
 
         // 每个敌人当前在哪个格子，便于跨格更新和移除
         private readonly Dictionary<EnemyEntity, int> _entityCells = new();
+        private readonly Plane[] _visibilityPlanes = new Plane[6];
+        private readonly List<SpriteRenderer> _visibilityRenderers = new();
 
         public bool IsInitialized => _mapView != null && _map != null && _buckets != null && _mapView.Map == _map;
         public int RegisteredCount => _entityCells.Count;
@@ -144,7 +146,36 @@ namespace Sproutshot.Gameplay
             return nearest != null;
         }
 
-        private void QueryCircleInternal(Vector3 world, float radius, List<EnemyEntity> results, out EnemyEntity nearest)
+        /// <summary>自动攻击只选择战斗摄像机中有立绘进入画面的敌人；其他空间查询不受影响。</summary>
+        public bool TryQueryNearestVisible(Vector3 world, float radius, Camera camera, out EnemyEntity nearest)
+        {
+            nearest = null;
+            if (camera == null || !camera.isActiveAndEnabled || camera.pixelRect.width <= 0 || camera.pixelRect.height <= 0) return false;
+            GeometryUtility.CalculateFrustumPlanes(camera, _visibilityPlanes);
+            QueryCircleInternal(world, radius, null, out nearest, camera);
+            return nearest != null;
+        }
+
+        public bool IsVisibleToCamera(EnemyEntity enemy, Camera camera)
+        {
+            if (camera == null || !camera.isActiveAndEnabled || camera.pixelRect.width <= 0 || camera.pixelRect.height <= 0) return false;
+            GeometryUtility.CalculateFrustumPlanes(camera, _visibilityPlanes);
+            return HasVisibleSprite(enemy, camera);
+        }
+
+        private bool HasVisibleSprite(EnemyEntity enemy, Camera camera)
+        {
+            if (enemy == null || !enemy.isActiveAndEnabled || enemy.IsDead) return false;
+            _visibilityRenderers.Clear();
+            enemy.GetComponentsInChildren(false, _visibilityRenderers);
+            foreach (var renderer in _visibilityRenderers)
+                if (renderer.enabled && !renderer.forceRenderingOff && renderer.sprite != null && renderer.color.a > 0 &&
+                    (camera.cullingMask & (1 << renderer.gameObject.layer)) != 0 &&
+                    GeometryUtility.TestPlanesAABB(_visibilityPlanes, renderer.bounds)) return true;
+            return false;
+        }
+
+        private void QueryCircleInternal(Vector3 world, float radius, List<EnemyEntity> results, out EnemyEntity nearest, Camera visibilityCamera = null)
         {
             nearest = null;
             if (!IsInitialized || !Finite(world) || !Finite(radius) || radius < 0) return;
@@ -187,6 +218,7 @@ namespace Sproutshot.Gameplay
                         double dx = (double)position.x - world.x, dy = (double)position.y - world.y;
                         double distanceSquared = dx * dx + dy * dy;
                         if (distanceSquared > radiusSquared) continue;
+                        if (visibilityCamera != null && !HasVisibleSprite(enemy, visibilityCamera)) continue;
                         if (results != null) results.Add(enemy);
                         else if (nearest == null || distanceSquared < nearestDistanceSquared)
                         {

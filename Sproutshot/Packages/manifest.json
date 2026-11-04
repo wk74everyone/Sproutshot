@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "cn.tuanjie.codely.bridge": "1.0.87",
+    "cn.tuanjie.codely.bridge": "1.0.88",
     "com.code-philosophy.luban": "https://github.com/focus-creative-games/luban_unity.git",
     "com.tuyoogame.yooasset": "3.0.5",
     "com.unity.cinemachine": "2.10.7",

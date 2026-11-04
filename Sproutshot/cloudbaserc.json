@@ -1,0 +1,20 @@
+{
+  "envId": "sad-flea-d6gr2xr73135d4637",
+  "functionRoot": "cloudbase/functions",
+  "functions": [
+    {
+      "name": "sproutshot-cloud",
+      "description": "Server-owned economy, 20-seed duplicate refunds, profiles, battle settlement and private files",
+      "runtime": "Nodejs18.15",
+      "handler": "index.main",
+      "timeout": 30,
+      "memorySize": 256,
+      "installDependency": true,
+      "ignore": ["node_modules/**", "test/**"],
+      "envVariables": {
+        "SPROUTSHOT_ENV_ID": "sad-flea-d6gr2xr73135d4637",
+        "SPROUTSHOT_WECHAT_APP_ID": ""
+      }
+    }
+  ]
+}

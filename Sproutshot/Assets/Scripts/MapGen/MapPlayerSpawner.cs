@@ -1,5 +1,6 @@
 using Sproutshot.Utils;
 using UnityEngine;
+using UnityEngine.Profiling;
 using YooAsset;
 
 namespace Sproutshot.MapGen
@@ -17,6 +18,10 @@ namespace Sproutshot.MapGen
 
         private AssetHandle prefabHandle;
         public PlayerClickToMove Player { get; private set; }
+        public int ProfessionId { get; private set; }
+        public int AttributeId { get; private set; }
+        private GameObject resolvedPrefab;
+        private int resolvedProfessionId;
 
         private void Awake()
         {
@@ -44,18 +49,33 @@ namespace Sproutshot.MapGen
             if (mapView == null || mapView.Map == null) return false;
             if (Player == null)
             {
-                if (playerPrefab == null)
+                HeroProfession profession;
+                try { profession = HeroProfessionCatalog.Equipped(CloudEconomy.Profile); }
+                catch (System.Exception error) { Debug.LogError("[MapPlayerSpawner] " + error.Message, this); return false; }
+                ProfessionId = profession.id;
+                AttributeId = profession.attributeId;
+                if (resolvedProfessionId != profession.id)
+                {
+                    resolvedPrefab = null;
+                    if (prefabHandle != null && prefabHandle.IsValid) prefabHandle.Release();
+                    prefabHandle = null;
+                    resolvedProfessionId = profession.id;
+                }
+                // Only reuse the authored override when it belongs to this address.
+                if (resolvedPrefab == null && profession.playerPrefabAddress == playerPrefabAddress) resolvedPrefab = playerPrefab;
+                if (resolvedPrefab == null)
                 {
                     if (!YooAssetManager.Instance.IsInitialized) return false;
-                    prefabHandle = YooAssetManager.Instance.LoadAssetHandleSync<GameObject>(playerPrefabAddress);
-                    playerPrefab = prefabHandle?.AssetObject as GameObject;
+                    if (prefabHandle != null && prefabHandle.IsValid) prefabHandle.Release();
+                    prefabHandle = YooAssetManager.Instance.LoadAssetHandleSync<GameObject>(profession.playerPrefabAddress);
+                    resolvedPrefab = prefabHandle?.AssetObject as GameObject;
                 }
-                if (playerPrefab == null || playerPrefab.GetComponent<PlayerClickToMove>() == null)
+                if (resolvedPrefab == null || resolvedPrefab.GetComponent<PlayerClickToMove>() == null)
                 {
                     Debug.LogError("[MapPlayerSpawner] Player 预制体必须预先挂载 PlayerClickToMove。", this);
                     return false;
                 }
-                GameObject instance = Instantiate(playerPrefab, mapView.WorldSpawnPosition, Quaternion.identity, transform);
+                GameObject instance = Instantiate(resolvedPrefab, mapView.WorldSpawnPosition, Quaternion.identity, transform);
                 instance.name = "Player";
                 Player = instance.GetComponent<PlayerClickToMove>();
             }

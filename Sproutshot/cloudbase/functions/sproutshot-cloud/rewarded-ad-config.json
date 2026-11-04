@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "enabled": false,
+  "timezone": "Asia/Shanghai",
+  "seedReward": 180,
+  "seedDailyLimit": 3,
+  "dewReward": 100,
+  "dewDailyLimit": 2,
+  "verificationMode": "client-report"
+}

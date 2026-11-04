@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Sproutshot.Utils;
 using UnityEngine;
 using YooAsset;
@@ -16,22 +17,12 @@ namespace Sproutshot.UI
             "ripple_256x128",
             "sparkle_64x64",
             "roster_normal_frame",
-            "generic_doodle_button_frame_512x128",
-            "player_sprout_128",
-            "NPC_Yellow",
-            "NPC_Pink",
-            "NPC_Blue"
+            "generic_doodle_button_frame_512x128"
         };
 
-        private static readonly string[] AudioAddresses =
-        {
-            "summon_bubbles_gulu",
-            "summon_spirit_pop"
-        };
 
         private readonly AssetHandle[] _spriteHandles = new AssetHandle[SpriteAddresses.Length];
-        private readonly AssetHandle[] _audioHandles = new AssetHandle[AudioAddresses.Length];
-        private readonly Sprite[] _previewSpirits = new Sprite[4];
+        private readonly SpiritPortraitAssets _portraits;
         private bool _loading;
         private bool _disposed;
         private int _loadVersion;
@@ -42,11 +33,14 @@ namespace Sproutshot.UI
         public Sprite Sparkle { get; private set; }
         public Sprite CardFrame { get; private set; }
         public Sprite ButtonFrame { get; private set; }
-        public Sprite[] PreviewSpirits => _previewSpirits;
-        public AudioClip Bubbles { get; private set; }
-        public AudioClip Pop { get; private set; }
 
-        /// <summary>由调用者先初始化资源包。所有资源并行请求，图片缺失时整体失败，音效允许缺失。</summary>
+        public SproutSummonAssets(cfg.Tables tables = null) =>
+            _portraits = new SpiritPortraitAssets(tables ?? LubanConfigManager.Instance.Tables);
+
+        public Sprite GetPortrait(int spiritId) => _portraits.Get(spiritId);
+        public IEnumerator LoadPortraits(IEnumerable<int> spiritIds) => _portraits.Load(spiritIds);
+
+        /// <summary>由调用者先初始化资源包。图片缺失时整体失败，音效由 AudioManager 缓存。</summary>
         public IEnumerator Load()
         {
             if (_disposed || IsReady)
@@ -68,10 +62,11 @@ namespace Sproutshot.UI
 
             _loading = true;
             int version = ++_loadVersion;
+            yield return AudioManager.Instance.Initialize();
+            yield return AudioManager.Instance.PreloadScope(AudioScope.Scene);
+            if (_disposed || version != _loadVersion) yield break;
             for (int i = 0; i < _spriteHandles.Length; i++)
                 _spriteHandles[i] = Request<Sprite>(manager, SpriteAddresses[i]);
-            for (int i = 0; i < _audioHandles.Length; i++)
-                _audioHandles[i] = Request<AudioClip>(manager, AudioAddresses[i]);
 
             bool allSpritesLoaded = true;
             for (int i = 0; i < _spriteHandles.Length; i++)
@@ -91,22 +86,6 @@ namespace Sproutshot.UI
                 }
             }
 
-            for (int i = 0; i < _audioHandles.Length; i++)
-            {
-                AssetHandle handle = _audioHandles[i];
-                if (handle != null)
-                    yield return handle;
-
-                if (_disposed || version != _loadVersion)
-                    yield break;
-
-                if (!HasAsset<AudioClip>(handle))
-                {
-                    Debug.LogWarning($"[SproutSummonAssets] 抽取音效加载失败：{AudioAddresses[i]}，本次使用无声音表现。");
-                    manager.Release(handle);
-                    _audioHandles[i] = null;
-                }
-            }
 
             if (allSpritesLoaded)
             {
@@ -115,10 +94,6 @@ namespace Sproutshot.UI
                 Sparkle = _spriteHandles[2].AssetObject as Sprite;
                 CardFrame = _spriteHandles[3].AssetObject as Sprite;
                 ButtonFrame = _spriteHandles[4].AssetObject as Sprite;
-                for (int i = 0; i < _previewSpirits.Length; i++)
-                    _previewSpirits[i] = _spriteHandles[5 + i].AssetObject as Sprite;
-                Bubbles = _audioHandles[0]?.AssetObject as AudioClip;
-                Pop = _audioHandles[1]?.AssetObject as AudioClip;
                 IsReady = true;
             }
             else
@@ -139,8 +114,7 @@ namespace Sproutshot.UI
             ++_loadVersion;
             IsReady = false;
             StarDew = Ripple = Sparkle = CardFrame = ButtonFrame = null;
-            Bubbles = Pop = null;
-            Array.Clear(_previewSpirits, 0, _previewSpirits.Length);
+            _portraits.Dispose();
             ReleaseHandles(YooAssetManager.Instance);
         }
 
@@ -150,11 +124,6 @@ namespace Sproutshot.UI
             {
                 manager.Release(_spriteHandles[i]);
                 _spriteHandles[i] = null;
-            }
-            for (int i = 0; i < _audioHandles.Length; i++)
-            {
-                manager.Release(_audioHandles[i]);
-                _audioHandles[i] = null;
             }
         }
 

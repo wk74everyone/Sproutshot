@@ -164,7 +164,17 @@ namespace Sproutshot.MapGen
             LensSettings lens = virtualCamera.m_Lens;
             lens.ModeOverride = LensSettings.OverrideModes.Orthographic;
             lens.OrthographicSize = viewportWidth / (2f * Mathf.Max(.25f, screenAspect));
+            Vector3 groundSize=view.GroundLocalBounds.size, mapScale=view.transform.lossyScale;
+            float maxSize=Mathf.Min(groundSize.y*Mathf.Abs(mapScale.y)*.5f,
+                groundSize.x*Mathf.Abs(mapScale.x)/(2f*Mathf.Max(.25f,screenAspect)));
+            lens.OrthographicSize=Mathf.Min(lens.OrthographicSize,maxSize*.99f);
             virtualCamera.m_Lens = lens;
+
+            // 背景不再无限外扩，限制镜头完整视口留在绘制范围内。
+            var confiner=virtualCamera.GetComponent<CinemachineConfiner2D>();
+            if(confiner==null)confiner=virtualCamera.gameObject.AddComponent<CinemachineConfiner2D>();
+            confiner.m_BoundingShape2D=view.CameraBoundary;
+            confiner.m_Damping=0;confiner.InvalidateCache();
 
             Vector3 cameraPosition = target.position + Vector3.back * body.m_CameraDistance;
             virtualCamera.ForceCameraPosition(cameraPosition, cameraRotation);
@@ -188,17 +198,24 @@ namespace Sproutshot.MapGen
     public static class MapSceneSelection
     {
         private static int pendingStage;
+        /// <summary>当前战斗关卡；0 表示未选择关卡的训练入口。</summary>
+        public static int CurrentStage { get; private set; }
 
         public static void SelectStage(int stageNumber) => pendingStage = Mathf.Clamp(stageNumber, 1, 50);
 
         internal static bool TryConsumeStage(out int stageNumber)
         {
             stageNumber = pendingStage;
+            CurrentStage = stageNumber;
             pendingStage = 0;
             return stageNumber > 0;
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetSelection() => pendingStage = 0;
+        private static void ResetSelection()
+        {
+            pendingStage = 0;
+            CurrentStage = 0;
+        }
     }
 }

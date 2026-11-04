@@ -21,6 +21,7 @@ public sealed partial class Buff : Luban.BeanBase
         Weight = _buf.ReadInt();
         {int n0 = _buf.ReadSize(); BuffHubId = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); BuffHubId.Add(_e0);}}
         GetLimitTimes = _buf.ReadInt();
+        ProfessionType = _buf.ReadInt();
     }
 
     public static Buff DeserializeBuff(ByteBuf _buf)
@@ -48,6 +49,10 @@ public sealed partial class Buff : Luban.BeanBase
     /// 一局获取的上限（-1为无限获取）
     /// </summary>
     public readonly int GetLimitTimes;
+    /// <summary>
+    /// 所属职业(-1为通用)
+    /// </summary>
+    public readonly int ProfessionType;
    
     public const int __ID__ = -291771247;
     public override int GetTypeId() => __ID__;
@@ -64,6 +69,7 @@ public sealed partial class Buff : Luban.BeanBase
         + "weight:" + Weight + ","
         + "buffHubId:" + Luban.StringUtil.CollectionToString(BuffHubId) + ","
         + "getLimitTimes:" + GetLimitTimes + ","
+        + "professionType:" + ProfessionType + ","
         + "}";
     }
 }

@@ -13,6 +13,7 @@ namespace Sproutshot.Utils
         private const string DefaultPackageName = "DefaultPackage";
 
         private ResourcePackage _defaultPackage;
+        private bool _initializingDefault;
 
         /// <summary>
         /// 默认资源包是否已初始化完成（文件系统 + 清单都就绪）。
@@ -30,11 +31,21 @@ namespace Sproutshot.Utils
         public IEnumerator InitDefaultPackage()
         {
             if (IsInitialized) yield break;
+            if (_initializingDefault)
+            {
+                while (_initializingDefault) yield return null;
+                yield break;
+            }
+            _initializingDefault = true;
+            try
+            {
 #if UNITY_EDITOR
             yield return InitPackage(EPlayMode.EditorSimulateMode);
 #else
             yield return InitPackage(EPlayMode.OfflinePlayMode);
 #endif
+            }
+            finally { _initializingDefault = false; }
         }
 
         /// <summary>

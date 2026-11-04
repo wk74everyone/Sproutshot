@@ -20,6 +20,9 @@ public partial class Tables
     public entity_tbAttribute EntityTbAttribute {get; }
     public buff_tbAttribute BuffTbAttribute {get; }
     public buff_tbHub BuffTbHub {get; }
+    public level_tbSpawner LevelTbSpawner {get; }
+    public entity_tbGrowth EntityTbGrowth {get; }
+    public entity_tbSkill EntityTbSkill {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
@@ -30,6 +33,9 @@ public partial class Tables
         EntityTbAttribute = new entity_tbAttribute(loader("entity_tbattribute"));
         BuffTbAttribute = new buff_tbAttribute(loader("buff_tbattribute"));
         BuffTbHub = new buff_tbHub(loader("buff_tbhub"));
+        LevelTbSpawner = new level_tbSpawner(loader("level_tbspawner"));
+        EntityTbGrowth = new entity_tbGrowth(loader("entity_tbgrowth"));
+        EntityTbSkill = new entity_tbSkill(loader("entity_tbskill"));
         ResolveRef();
     }
     
@@ -42,6 +48,9 @@ public partial class Tables
         EntityTbAttribute.ResolveRef(this);
         BuffTbAttribute.ResolveRef(this);
         BuffTbHub.ResolveRef(this);
+        LevelTbSpawner.ResolveRef(this);
+        EntityTbGrowth.ResolveRef(this);
+        EntityTbSkill.ResolveRef(this);
     }
 }
 

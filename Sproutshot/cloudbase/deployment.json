@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "envId": "sad-flea-d6gr2xr73135d4637",
+  "command": "fn deploy",
+  "deployTime": "2026-10-28T06:28:55.310Z",
+  "resources": [
+    {
+      "name": "sproutshot-cloud",
+      "resourceType": "EVENT",
+      "action": "create",
+      "deployedRef": "$LATEST",
+      "deployedAt": "2026-10-28T06:28:55.310Z",
+      "deployedBy": "fn deploy"
+    }
+  ]
+}

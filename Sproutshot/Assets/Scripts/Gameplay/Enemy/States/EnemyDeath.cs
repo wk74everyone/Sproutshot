@@ -55,7 +55,11 @@ namespace Sproutshot.Gameplay
             _entity.Recycle();
         }
 
-        public override void OnExit() => ResetAll();
+        public override void OnExit()
+        {
+            _entity.DropExp();
+            ResetAll();
+        }
 
         public void ResetAll()
         {

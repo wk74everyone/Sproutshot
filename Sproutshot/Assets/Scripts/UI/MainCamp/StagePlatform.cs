@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -15,6 +16,7 @@ namespace Sproutshot.UI
 
         private Button _button;
         private bool _initialized;
+        private static bool _starting;
 
         public bool IsOpen { get; private set; }
         public int Level => _level;
@@ -59,13 +61,29 @@ namespace Sproutshot.UI
             }
         }
 
-        private void OnClicked()
+        private async void OnClicked()
         {
-            if (!IsOpen) return;
+            if (!IsOpen || _starting || FlowerSceneTransition.Instance.IsTransitioning) return;
             if (!StageProgressSave.IsStageUnlocked(_level)) return;
-            MapSceneSelection.SelectStage(_level);
-            // 进入所选章节；地图就绪后由 MapPlayerSpawner 生成玩家。
-            FlowerSceneTransition.Instance.EnterScene("GameScene");
+            _starting = true;
+            try
+            {
+#if UNITY_EDITOR
+                if (CloudBaseClient.IsEditorTestMode)
+#endif
+                await CloudEconomy.BeginBattleAsync(_level);
+                if (this == null || !isActiveAndEnabled) return;
+                MapSceneSelection.SelectStage(_level);
+                FlowerSceneTransition.Instance.EnterScene("GameScene");
+            }
+            catch (Exception error)
+            {
+                CloudFeedback.Show(error.Message, async () => {
+                    try { await CloudEconomy.RetryPendingAsync(); }
+                    catch (Exception retryError) { CloudFeedback.Show(retryError.Message); }
+                });
+            }
+            finally { _starting = false; }
         }
     }
 }

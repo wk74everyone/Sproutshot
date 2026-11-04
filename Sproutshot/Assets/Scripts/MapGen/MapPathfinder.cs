@@ -18,8 +18,8 @@ namespace Sproutshot.MapGen
             result.Clear();
             if (map == null || !Finite(start) || !Finite(target) || !Finite(clearance) || clearance < 0 ||
                 !map.IsWalkable(start, clearance)) return false;
-            float minX = map.MinX + clearance, maxX = map.MaxX - clearance;
-            float minY = map.MinY + clearance, maxY = map.MaxY - clearance;
+            float minX = map.WalkableMinX + clearance, maxX = map.WalkableMaxX - clearance;
+            float minY = map.WalkableMinY + clearance, maxY = map.WalkableMaxY - clearance;
             if (minX > maxX || minY > maxY) return false;
             target = new MapPoint(Clamp(target.X, minX, maxX), Clamp(target.Y, minY, maxY));
             if (CanTraverse(map, start, target, clearance)) { result.Add(target); return true; }
@@ -96,7 +96,7 @@ namespace Sproutshot.MapGen
         public static bool CanTraverse(GridMapData map, MapPoint from, MapPoint to, float clearance)
         {
             if (map == null || !Finite(from) || !Finite(to) || !Finite(clearance) || clearance < 0 ||
-                !map.ContainsPoint(from, clearance) || !map.ContainsPoint(to, clearance)) return false;
+                !map.ContainsPoint(from, map.BoundaryInset + clearance) || !map.ContainsPoint(to, map.BoundaryInset + clearance)) return false;
             foreach (MapPlacement placement in map.Placements)
             {
                 if (!placement.BlocksMovement) continue;

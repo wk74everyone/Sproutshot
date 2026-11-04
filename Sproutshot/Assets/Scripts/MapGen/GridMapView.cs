@@ -28,6 +28,9 @@ namespace Sproutshot.MapGen
         private Material groundMaterial;
         private GridMapData map;
         private Bounds bounds;
+        private Bounds groundBounds;
+        public Bounds GroundLocalBounds => groundBounds;
+        public PolygonCollider2D CameraBoundary { get; private set; }
 
         public GridMapData Map => map;
         public float CellSize => map == null ? 1.35f : map.CellSize;
@@ -40,15 +43,12 @@ namespace Sproutshot.MapGen
             if (value == null) throw new System.ArgumentNullException(nameof(value));
             if (!GridMapArtLibrary.LoadMapSprites(value.Theme))
                 throw new System.InvalidOperationException("Map theme assets are not ready: " + value.Theme);
-            Transform prefabVisual = GridMapArtLibrary.PollutionCorePrefab().transform.Find("Visual");
-            if (prefabVisual == null || prefabVisual.GetComponent<SpriteRenderer>()?.sprite == null)
-                throw new System.InvalidOperationException("PollutionCore 预制体需要 Visual 子节点及其 SpriteRenderer 图片。");
             Clear();
             map = value;
             bounds = CalculateBounds();
             generatedRoot = new GameObject("Natural Map " + map.Theme).transform;
             generatedRoot.SetParent(transform, false);
-            BuildGround();
+            BuildGround(mapRules != null ? mapRules.WalkableGroundCoverage : .7f);
             Transform decals = CreateLayerRoot("Ground Decals"), objects = CreateLayerRoot("Scene Objects");
             foreach (MapPlacement placement in map.Placements)
                 BuildPlacement(placement, placement.Category == MapObjectCategory.Decal ? decals : objects);
@@ -57,7 +57,7 @@ namespace Sproutshot.MapGen
             GridMapArtLibrary.RetainOnlyTheme(map.Theme);
         }
 
-        private void BuildGround()
+        private void BuildGround(float coverage)
         {
             Sprite primary = GridMapArtLibrary.Ground(map.Theme, 0), secondary = GridMapArtLibrary.Ground(map.Theme, 1);
             if (primary == null || secondary == null) return;
@@ -66,10 +66,17 @@ namespace Sproutshot.MapGen
             item.transform.localPosition = bounds.center;
             var ground = item.AddComponent<SpriteRenderer>();
             ground.sprite = primary;
-            // Continue the painted ground past the playable edge while a following camera approaches it.
-            // The following player can reach any edge, including on very tall phone screens.
-            float margin = ArtWidth * 16f;
-            Vector2 groundSize = new Vector2(bounds.size.x + margin * 2, bounds.size.y + margin * 2);
+            // 两个轴按同一比例留边，70% 指面积，不能把宽高都直接乘以 70%。
+            float scale = 1f / Mathf.Sqrt(Mathf.Clamp(coverage,.5f,.9f));
+            Vector2 groundSize = new Vector2(Mathf.Max(bounds.size.x,(map.WalkableMaxX-map.WalkableMinX)*scale),
+                Mathf.Max(bounds.size.y,(map.WalkableMaxY-map.WalkableMinY)*scale));
+            groundBounds = new Bounds(bounds.center,new Vector3(groundSize.x,groundSize.y,0));
+            var cameraEdge = new GameObject("Camera Boundary");cameraEdge.transform.SetParent(generatedRoot,false);
+            CameraBoundary = cameraEdge.AddComponent<PolygonCollider2D>();CameraBoundary.isTrigger=true;
+            // 只给 Cinemachine 读取形状，不加入物理模拟，避免整张地图产生触发事件。
+            var cameraBody=cameraEdge.AddComponent<Rigidbody2D>();cameraBody.bodyType=RigidbodyType2D.Kinematic;cameraBody.simulated=false;
+            CameraBoundary.points=new[]{new Vector2(groundBounds.min.x,groundBounds.min.y),new Vector2(groundBounds.max.x,groundBounds.min.y),
+                new Vector2(groundBounds.max.x,groundBounds.max.y),new Vector2(groundBounds.min.x,groundBounds.max.y)};
             Vector2 tileSize = primary.bounds.size;
             // One quad keeps the map field continuous; texture repetition is handled by the shader.
             item.transform.localScale = new Vector3(groundSize.x / tileSize.x, groundSize.y / tileSize.y, 1);
@@ -104,7 +111,7 @@ namespace Sproutshot.MapGen
         {
             if (placement.Category == MapObjectCategory.Core)
             {
-                BuildCore(placement, parent);
+                // 兼容旧布局数据：也不再实例化核心及其附带刷怪器。
                 return;
             }
             Sprite sprite = ResolveSprite(placement);
@@ -179,10 +186,10 @@ namespace Sproutshot.MapGen
         {
             Transform parent = CreateLayerRoot("Movement Boundary");
             float t = Mathf.Max(.5f, ArtWidth);
-            AddBoundary(parent, new Vector2(bounds.min.x - t * .5f, bounds.center.y), new Vector2(t, bounds.size.y + t * 2));
-            AddBoundary(parent, new Vector2(bounds.max.x + t * .5f, bounds.center.y), new Vector2(t, bounds.size.y + t * 2));
-            AddBoundary(parent, new Vector2(bounds.center.x, bounds.min.y - t * .5f), new Vector2(bounds.size.x, t));
-            AddBoundary(parent, new Vector2(bounds.center.x, bounds.max.y + t * .5f), new Vector2(bounds.size.x, t));
+            AddBoundary(parent, new Vector2(map.WalkableMinX - t * .5f, bounds.center.y), new Vector2(t, bounds.size.y + t * 2));
+            AddBoundary(parent, new Vector2(map.WalkableMaxX + t * .5f, bounds.center.y), new Vector2(t, bounds.size.y + t * 2));
+            AddBoundary(parent, new Vector2(bounds.center.x, map.WalkableMinY - t * .5f), new Vector2(bounds.size.x, t));
+            AddBoundary(parent, new Vector2(bounds.center.x, map.WalkableMaxY + t * .5f), new Vector2(bounds.size.x, t));
         }
 
         private static void AddBoundary(Transform parent, Vector2 position, Vector2 size)

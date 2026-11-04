@@ -7,8 +7,6 @@ namespace Sproutshot.Utils
     {
         [SerializeField] private Transform _visual;
         [SerializeField] private SpriteRenderer _renderer;
-        [SerializeField, Min(0)] private float _swayAngle = 5f;
-        [SerializeField, Min(0)] private float _swayFrequency = 3f;
         [SerializeField, Min(0)] private float _pullback = .08f;
         [SerializeField] private Color _warningColor = Color.white;
         [SerializeField] private Color _damageColor = Color.red;
@@ -19,7 +17,6 @@ namespace Sproutshot.Utils
         private Quaternion _rotation;
         private Color _color;
         private bool _initialized;
-        private float _chaseTime;
         private float _warningAmount;
         private float _damageFlashRemaining;
         private bool _damageJustStarted;
@@ -55,9 +52,10 @@ namespace Sproutshot.Utils
         {
             if (!Initialize()) return;
             if (direction.sqrMagnitude < .000001f) { ResetPose(); return; }
-            _chaseTime += Mathf.Max(0, deltaTime);
-            float sway = Mathf.Sin(_chaseTime * _swayFrequency * Mathf.PI * 2);
-            Pose(direction, Vector2.one, 0, sway * _swayAngle);
+            // 移动保持初始朝向；只有攻击的 Pose 才根据锁定方向旋转。
+            _visual.localPosition = _position;
+            _visual.localRotation = _rotation;
+            _visual.localScale = _scale;
             SetFlash(0);
         }
 
@@ -99,13 +97,13 @@ namespace Sproutshot.Utils
             SetFlash(0);
         }
 
-        private void Pose(Vector2 worldDirection, Vector2 shape, float offset, float sway = 0)
+        private void Pose(Vector2 worldDirection, Vector2 shape, float offset)
         {
             Vector3 local = _visual.parent.InverseTransformVector(new Vector3(worldDirection.x, worldDirection.y, 0));
             Vector2 forward = new Vector2(local.x, local.y).normalized;
             if (forward.sqrMagnitude == 0) forward = Vector2.up;
             float angle = Mathf.Atan2(forward.y, forward.x) * Mathf.Rad2Deg - 90f;
-            _visual.localRotation = Quaternion.AngleAxis(angle + sway, Vector3.forward) * _rotation;
+            _visual.localRotation = Quaternion.AngleAxis(angle, Vector3.forward) * _rotation;
             _visual.localPosition = _position + new Vector3(forward.x, forward.y, 0) * offset;
             _visual.localScale = new Vector3(_scale.x * shape.x, _scale.y * shape.y, _scale.z);
         }
@@ -148,7 +146,6 @@ namespace Sproutshot.Utils
         public void ResetPose()
         {
             if (!Initialize()) return;
-            _chaseTime = 0;
             _visual.localPosition = _position;
             _visual.localRotation = _rotation;
             _visual.localScale = _scale;

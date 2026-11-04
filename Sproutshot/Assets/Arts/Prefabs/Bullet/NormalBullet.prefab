@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5539143865360190025}
   - component: {fileID: 8905173220850453713}
+  - component: {fileID: 8871063557706157002}
   m_Layer: 0
   m_HasEditorInfo: 1
   m_Name: NormalBullet
@@ -46,11 +47,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5aead212eba81439c46e7ba3c11156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 14
+  _isAOE: 0
+  speed: 8
   maxDistance: 12
   lifeTime: 2
+  _radius: 0.2
   _seekRadius: 8
   _retargetInterval: 0.15
+--- !u!114 &8871063557706157002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977871645632545301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c03c227bf83f40f4a9f04ab85cbbab41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7428374946910731073
 GameObject:
   m_ObjectHideFlags: 0

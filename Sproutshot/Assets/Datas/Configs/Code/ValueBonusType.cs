@@ -41,21 +41,25 @@ namespace cfg
         /// </summary>
         Speed = 5,
         /// <summary>
+        /// 经验获取效率
+        /// </summary>
+        Exp = 6,
+        /// <summary>
         /// 盾
         /// </summary>
-        Shield = 6,
+        Shield = 7,
         /// <summary>
         /// 技能CD
         /// </summary>
-        SkillCD = 7,
+        SkillCD = 8,
         /// <summary>
         /// 精灵技能CD
         /// </summary>
-        JLSkillCD = 8,
+        JLSkillCD = 9,
         /// <summary>
         /// 子弹数量
         /// </summary>
-        BulletCount = 9,
+        BulletCount = 10,
     }
 
 } 

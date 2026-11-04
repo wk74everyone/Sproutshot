@@ -1,0 +1,13 @@
+{
+  "name": "sproutshot-cloud",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test test/*.test.cjs"
+  },
+  "dependencies": {
+    "@cloudbase/js-sdk": "3.10.3",
+    "wx-server-sdk": "4.0.2"
+  }
+}

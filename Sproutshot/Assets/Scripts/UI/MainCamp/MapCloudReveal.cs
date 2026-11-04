@@ -39,6 +39,12 @@ namespace Sproutshot.UI
 
         private void OnEnable()
         {
+            StageProgressSave.Changed += OnProgressChanged;
+            OnProgressChanged();
+        }
+
+        private void OnProgressChanged()
+        {
             var progress = StageProgressSave.Load();
             if (progress.HasRevealedMap(_mapNumber))
             {
@@ -46,6 +52,7 @@ namespace Sproutshot.UI
                 return;
             }
 
+            if (_revealRoutine != null) return;
             RestorePositions();
             if (_animator != null && _animator.runtimeAnimatorController != null)
             {
@@ -65,6 +72,7 @@ namespace Sproutshot.UI
 
         private void OnDisable()
         {
+            StageProgressSave.Changed -= OnProgressChanged;
             if (_revealRoutine != null)
             {
                 StopCoroutine(_revealRoutine);

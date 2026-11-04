@@ -7,6 +7,8 @@ namespace Sproutshot.Gameplay
         public PlayerRuntime PlayerContext;
         public LevelRuntime LevelContext;
         public PlayerEntity PlayerEntity;
+        public SpiritEntity SpiritEntity;
+        public readonly CardRuntime Cards = new CardRuntime();
 
         public SpatialGrid SpatialGrid;
 

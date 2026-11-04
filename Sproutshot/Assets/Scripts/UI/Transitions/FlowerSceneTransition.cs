@@ -31,20 +31,20 @@ namespace Sproutshot.UI
             if (!_loadingSprites && (_sprites[0] == null || _sprites[1] == null))
                 StartCoroutine(LoadSprites());
         }
-        public bool EnterScene(string sceneName)
+        public bool EnterScene(string sceneName, bool reloadCurrent = false, Action onLoaded = null)
         {
             if (IsTransitioning || string.IsNullOrWhiteSpace(sceneName) ||
-                SceneManager.GetActiveScene().name == sceneName) return false;
+                (!reloadCurrent && SceneManager.GetActiveScene().name == sceneName)) return false;
             if (!Application.CanStreamedLevelBeLoaded(sceneName))
             {
                 Debug.LogError($"[FlowerSceneTransition] 场景未加入构建列表：{sceneName}");
                 return false;
             }
             IsTransitioning = true;
-            StartCoroutine(EnterSceneRoutine(sceneName));
+            StartCoroutine(EnterSceneRoutine(sceneName, onLoaded));
             return true;
         }
-        private IEnumerator EnterSceneRoutine(string sceneName)
+        private IEnumerator EnterSceneRoutine(string sceneName, Action onLoaded)
         {
             try
             {
@@ -62,6 +62,7 @@ namespace Sproutshot.UI
                 {
                     yield return loading;
                     yield return null; // 新场景完成 Start 和布局；新对局框架自行管理其初始化。
+                    onLoaded?.Invoke();
                     Canvas.ForceUpdateCanvases();
                 }
                 yield return _view.Reveal(AnimationDuration).WaitForCompletion();

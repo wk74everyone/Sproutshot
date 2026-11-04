@@ -1,0 +1,22 @@
+{
+  "professions": [
+    {
+      "id": 1,
+      "attributeId": 1,
+      "name": "芽灵射手",
+      "specialty": "远程 · 子弹",
+      "description": "自动发射子弹 · 元素子弹 / 穿透",
+      "playerPrefabAddress": "Player",
+      "available": true
+    },
+    {
+      "id": 2,
+      "attributeId": 2,
+      "name": "荆棘守卫",
+      "specialty": "近身 · 尚未开放",
+      "description": "荆棘脉冲 · 定时释放一圈荆棘，伤害身边敌人",
+      "playerPrefabAddress": "",
+      "available": false
+    }
+  ]
+}

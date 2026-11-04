@@ -20,7 +20,8 @@ namespace Sproutshot.Gameplay
                 ActiveBuff activeBuff = bonus;
                 BuffDefinition definition = activeBuff.BuffDefinition;
 
-                if (definition.ValueBonusType == bonusType)
+                // 周期效果由计时器结算，不能同时作为角色的即时属性加成。
+                if (definition.BuffType == BuffType.Value && definition.ValueBonusType == bonusType)
                 {
                     // TotalBonus = 每层加成 × 当前层数
                     totalBonus += activeBuff.TotalBonus;

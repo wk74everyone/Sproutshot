@@ -106,7 +106,7 @@ namespace Sproutshot.MapGen
 
             Vector3 local = _mapView.transform.InverseTransformPoint(target.position);
             var point = new MapPoint(local.x, local.y);
-            if (!Finite(local) || !_map.IsWalkable(point, _grid.Clearance))
+            if (!Finite(local) || !TryGetChaseTarget(point, out point))
             {
                 ClearResult();
                 return false;
@@ -121,6 +121,26 @@ namespace Sproutshot.MapGen
                 return true;
             }
             return IntegrationField(point);
+        }
+
+        // 玩家比敌人小，贴墙或进入窄缝时，敌人仍应追到最近可站立的位置。
+        // 仅自动追踪使用投影，手动 RebuildFlow 仍严格验证传入目标。
+        private bool TryGetChaseTarget(MapPoint target, out MapPoint reachable)
+        {
+            reachable = target;
+            if (_map.IsWalkable(target, _grid.Clearance)) return true;
+            if (!_map.ContainsPoint(target)) return false;
+            float best = float.PositiveInfinity;
+            bool found = false;
+            for (int index = 0; index < _grid.Count; index++)
+            {
+                if (!_grid.Walkable[index]) continue;
+                MapPoint point = _grid.Point(index);
+                float distance = MapPoint.DistanceSquared(target, point);
+                if (distance >= best) continue;
+                best = distance; reachable = point; found = true;
+            }
+            return found;
         }
 
         /// <summary>地图 Placements 中的障碍变化后调用；下一次刷新会重建通行数据。</summary>

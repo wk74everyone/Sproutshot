@@ -38,10 +38,14 @@ namespace Sproutshot.MapGen
         [Range(.25f, 3f)] public float CellSize = 1.35f;
         [FormerlySerializedAs("TileRadius"), Range(.35f, 1.2f)] public float ArtScale = .78f;
         public MapTheme Theme;
-        [Range(2, 4)] public int CoreCount = 2;
+        [HideInInspector] public int CoreCount;
         [Range(1.5f, 4f)] public float SpawnClearRadius = 2.1f;
         [Range(.8f, 2f)] public float CorridorHalfWidth = 1.15f;
         [Range(0f, 2f)] public float DensityScale = 1f;
+        [Range(0f, 2f)] public float ObstacleDensityScale = 1f;
+        [Range(0f, 2f)] public float DecorationDensityScale = 1f;
+        [Range(0f, 3f)] public float EdgeInset = .75f;
+        [Range(.5f, .9f)] public float WalkableGroundCoverage = .70f;
 
         public void Clamp()
         {
@@ -50,10 +54,14 @@ namespace Sproutshot.MapGen
             CellSize = Limit(CellSize, .25f, 3f, 1.35f);
             ArtScale = Limit(ArtScale, .35f, 1.2f, .78f);
             if ((int)Theme > 4) Theme = MapTheme.Forest;
-            CoreCount = Math.Max(2, Math.Min(4, CoreCount));
+            CoreCount = 0;
             SpawnClearRadius = Limit(SpawnClearRadius, 1.5f, 4f, 2.1f);
             CorridorHalfWidth = Limit(CorridorHalfWidth, .8f, 2f, 1.15f);
             DensityScale = Limit(DensityScale, 0, 2, 1);
+            ObstacleDensityScale = Limit(ObstacleDensityScale, 0, 2, 1);
+            DecorationDensityScale = Limit(DecorationDensityScale, 0, 2, 1);
+            EdgeInset = Limit(EdgeInset, 0, 3, .75f);
+            WalkableGroundCoverage = Limit(WalkableGroundCoverage, .5f, .9f, .70f);
         }
         private static float Limit(float v, float lo, float hi, float fallback) =>
             float.IsNaN(v) || float.IsInfinity(v) ? fallback : Math.Max(lo, Math.Min(hi, v));
@@ -89,6 +97,7 @@ namespace Sproutshot.MapGen
         public readonly float ArtScale, CellSize;
         public readonly MapPoint SpawnPosition;
         public float SpawnClearRadius, CorridorHalfWidth;
+        public float BoundaryInset;
         public readonly List<MapPlacement> Placements = new List<MapPlacement>();
         public readonly List<MapPlacement> Cores = new List<MapPlacement>();
         private readonly Dictionary<float, MapNavigationGrid> navigationGrids = new Dictionary<float, MapNavigationGrid>();
@@ -99,6 +108,10 @@ namespace Sproutshot.MapGen
         public float WorldWidth => Width * CellSize;
         public float WorldHeight => Height * CellSize;
         public float Area => WorldWidth * WorldHeight;
+        public float WalkableMinX => MinX + BoundaryInset;
+        public float WalkableMaxX => MaxX - BoundaryInset;
+        public float WalkableMinY => MinY + BoundaryInset;
+        public float WalkableMaxY => MaxY - BoundaryInset;
 
         public GridMapData(int width, int height, int seed) : this(width, height, seed, MapTheme.Forest, 1.35f) { }
         public GridMapData(int width, int height, int seed, MapTheme theme, float cellSize, float artScale = .78f)
@@ -175,7 +188,7 @@ namespace Sproutshot.MapGen
 
         public bool IsWalkable(MapPoint point, float clearance = 0)
         {
-            if (!ContainsPoint(point, clearance)) return false;
+            if (!ContainsPoint(point, BoundaryInset + clearance)) return false;
             foreach (MapPlacement p in Placements)
                 if (p.BlocksMovement && MapPoint.DistanceSquared(point, p.Position) <
                     (p.FootprintRadius + clearance) * (p.FootprintRadius + clearance)) return false;
@@ -185,6 +198,9 @@ namespace Sproutshot.MapGen
         public bool IsReservedForCombat(MapPoint point, float radius = 0)
         {
             if (MapPoint.DistanceSquared(point, SpawnPosition) < (SpawnClearRadius + radius) * (SpawnClearRadius + radius)) return true;
+            // 中央横纵通路不依赖已移除的核心，保证整张地图都有宽阔的穿行方向。
+            if (Math.Abs(point.X - SpawnPosition.X) < CorridorHalfWidth + radius ||
+                Math.Abs(point.Y - SpawnPosition.Y) < CorridorHalfWidth + radius) return true;
             foreach (MapPlacement core in Cores)
             {
                 float combatRadius = core.Width * .72f + radius;

@@ -279,6 +279,7 @@ namespace Sproutshot.UI
                 _entries.Add(type, entry);
 
                 view.InitializeView();
+                AudioButtonFeedback.Bind(instance.transform);
                 BringToFront(view);
                 view.OpenView(args);
                 return view;

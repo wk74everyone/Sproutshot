@@ -104,7 +104,7 @@ namespace Sproutshot.MapGen
                 isLoaded = editorPreviewLoaded = false;
             }
 #endif
-            if (isLoaded && ActiveTheme == theme && pollutionCorePrefab != null) return true;
+            if (isLoaded && ActiveTheme == theme) return true;
             if (!YooAssetManager.Instance.IsInitialized)
             {
                 Debug.LogError("[GridMapArtLibrary] YooAsset 尚未初始化，无法加载地图资源。");
@@ -115,14 +115,7 @@ namespace Sproutshot.MapGen
             foreach (string address in GetThemeAddresses(theme)) complete &= LoadSprite(address) != null;
             if (spriteMaterial == null) spriteMaterial = LoadMaterial(SpriteMaterialAddress);
             if (groundMaterial == null) groundMaterial = LoadMaterial(GroundMaterialAddress);
-            if (pollutionCorePrefab == null)
-            {
-                AssetHandle handle = YooAssetManager.Instance.LoadAssetHandleSync<GameObject>(PollutionCorePrefabAddress);
-                pollutionCorePrefab = handle?.AssetObject as GameObject;
-                if (pollutionCorePrefab != null) Handles[PollutionCorePrefabAddress] = handle;
-                else if (handle != null) YooAssetManager.Instance.Release(handle);
-            }
-            complete &= spriteMaterial != null && groundMaterial != null && pollutionCorePrefab != null;
+            complete &= spriteMaterial != null && groundMaterial != null;
             if (complete) { ActiveTheme = theme; isLoaded = true; }
             if (!complete)
                 Debug.LogError($"[GridMapArtLibrary] {theme} 素材加载不完整，请检查 Maps 收集器及导入设置。");
@@ -156,10 +149,9 @@ namespace Sproutshot.MapGen
             }
             spriteMaterial = UnityEditor.AssetDatabase.LoadAssetAtPath<Material>("Assets/Arts/Shaders/Tile/map_sprite.mat");
             groundMaterial = UnityEditor.AssetDatabase.LoadAssetAtPath<Material>("Assets/Arts/Shaders/Tile/natural_map_ground.mat");
-            pollutionCorePrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(PollutionCorePrefabPath);
             ActiveTheme = theme;
             editorPreviewLoaded = true;
-            isLoaded = complete && spriteMaterial != null && groundMaterial != null && pollutionCorePrefab != null;
+            isLoaded = complete && spriteMaterial != null && groundMaterial != null;
             return isLoaded;
         }
 
@@ -316,7 +308,7 @@ namespace Sproutshot.MapGen
                 Landmark = Addresses(prefix, "landmark", 1024, landmark);
                 Core = Addresses(prefix, "core", 512,
                     new[] { core + "_alive", core + "_broken", core + "_restored" });
-                Groups = new[] { Ground, Decal, Obstacle, Decoration, Landmark, Core };
+                Groups = new[] { Ground, Decal, Obstacle, Decoration, Landmark };
             }
 
             private static string[] Addresses(string prefix, string category, int size, string[] names)

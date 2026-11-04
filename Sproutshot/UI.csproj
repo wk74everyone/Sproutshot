@@ -60,25 +60,44 @@
     <Analyzer Include="D:\TuanJie\Edi\2022.3.62t14\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\UI\HeroProfessionSelector.cs" />
+    <Compile Include="Assets\Scripts\UI\SpiritSkillPresentation.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\MapPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\ScrollCenterScale.cs" />
+    <Compile Include="Assets\Scripts\UI\VirtualJoystick.cs" />
     <Compile Include="Assets\Scripts\UI\OpenPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\SproutRafflePanel.cs" />
+    <Compile Include="Assets\Scripts\UI\BattleUIRoot.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\SproutSummonView.cs" />
+    <Compile Include="Assets\Scripts\UI\MainUIView.cs" />
+    <Compile Include="Assets\Scripts\UI\StageResultsPanelView.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\SproutSummonResult.cs" />
     <Compile Include="Assets\Scripts\UI\SettingPanel.cs" />
     <Compile Include="Assets\Scripts\UI\UIWindowAttribute.cs" />
+    <Compile Include="Assets\Scripts\UI\CultivateSpiritItem.cs" />
+    <Compile Include="Assets\Scripts\UI\Card\CardRaffleFrame.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\PanelSelection.cs" />
+    <Compile Include="Assets\Scripts\UI\SpiritPortraitAssets.cs" />
+    <Compile Include="Assets\Scripts\UI\Card\CardRaffleShape.cs" />
     <Compile Include="Assets\Scripts\UI\UIView.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\StagePlatform.cs" />
+    <Compile Include="Assets\Scripts\UI\Card\CardBuffItemView.cs" />
     <Compile Include="Assets\Scripts\UI\UILayer.cs" />
+    <Compile Include="Assets\Scripts\UI\Card\CardBuffBarView.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\MapCloudReveal.cs" />
+    <Compile Include="Assets\Scripts\UI\CultivatePanelData.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\SproutSummonAssets.cs" />
     <Compile Include="Assets\Scripts\UI\Transitions\FlowerTransitionView.cs" />
+    <Compile Include="Assets\Scripts\UI\CloudWalletView.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\TrainingPanel.cs" />
     <Compile Include="Assets\Scripts\UI\MainCamp\ChapterContainer.cs" />
     <Compile Include="Assets\Scripts\UI\Transitions\FlowerSceneTransition.cs" />
+    <Compile Include="Assets\Scripts\UI\Card\CardRaffleFit.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Card\CardRafflePanelView.cs" />
+    <Compile Include="Assets\Scripts\UI\AudioButtonFeedback.cs" />
+    <Compile Include="Assets\Scripts\UI\CultivatePanelView.cs" />
+    <Compile Include="Assets\Scripts\UI\CloudFeedback.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\UI\UI.asmdef" />
@@ -485,7 +504,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Codely.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.86\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
+      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.88\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.OpenHarmony.Types">
@@ -1000,6 +1019,10 @@
       <HintPath>Library\ScriptAssemblies\YooAsset.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Luban.Runtime">
+      <HintPath>Library\ScriptAssemblies\Luban.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
       <Private>False</Private>
@@ -1021,6 +1044,10 @@
     <ProjectReference Include="MapGen.csproj">
       <Project>{77E9773F-1739-6256-BCB9-BD3BADA0A6B3}</Project>
       <Name>MapGen</Name>
+    </ProjectReference>
+    <ProjectReference Include="Gameplay.csproj">
+      <Project>{F16EA7DF-0D98-D326-FFF0-4CE0535851AF}</Project>
+      <Name>Gameplay</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

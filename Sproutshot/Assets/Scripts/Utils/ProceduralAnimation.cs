@@ -38,61 +38,14 @@ namespace Sproutshot.Utils
             }
         }
 
-        public static void DoPanelVisibility(Transform panel, bool visible, float duration, bool rotate = true)
+        /// <summary>面板只做淡入淡出和短距离平移，不旋转；连续切换从当前画面衔接。</summary>
+        public static void DoPanelVisibility(Transform panel, bool visible, float duration,
+            Vector2? slideOffset = null)
         {
-            if (panel == null)
-                return;
-
-            panel.DOKill();
-            if (!panel.TryGetComponent<CanvasGroup>(out var group))
-            {
-                panel.gameObject.SetActive(visible);
-                return;
-            }
-
-            group.DOKill(); // 取消旧的关闭回调，避免新面板打开后又被关闭。
-            group.interactable = false;
-
-            if (!visible && !panel.gameObject.activeSelf)
-            {
-                group.alpha = 0f;
-                group.blocksRaycasts = false;
-                return;
-            }
-
-            if (visible && !panel.gameObject.activeSelf)
-                group.alpha = 0f; // 启用前隐藏，避免闪烁。
-
-            group.blocksRaycasts = visible || group.alpha > 0f;
-            if (visible)
-                panel.gameObject.SetActive(true);
-
-            Vector3 rotation = new Vector3(0f, 0f, visible ? 360f : 180f);
-            if (duration <= 0f)
-            {
-                group.alpha = visible ? 1f : 0f;
-                group.interactable = visible;
-                group.blocksRaycasts = visible;
-                if (rotate)
-                    panel.localEulerAngles = rotation;
-                panel.gameObject.SetActive(visible);
-                return;
-            }
-
-            if (rotate)
-            {
-                panel.DORotate(rotation, duration)
-                    .SetUpdate(true)
-                    .SetLink(panel.gameObject, LinkBehaviour.KillOnDisable);
-            }
-
-            DoUIAlpha(panel, true, visible ? 1f : 0f, duration, () =>
-            {
-                group.interactable = visible;
-                group.blocksRaycasts = visible;
-                if (!visible)
-                    panel.gameObject.SetActive(false);
-            });
+            if (panel == null) return;
+            if (!panel.TryGetComponent<PanelVisibilityTransition>(out var transition))
+                transition = panel.gameObject.AddComponent<PanelVisibilityTransition>();
+            transition.SetVisible(visible, duration, slideOffset ?? new Vector2(0f, 28f));
         }
 
         public static void ShakeIt(Transform panel, bool isEndCurrentTween, float duration, Vector3 strenth)

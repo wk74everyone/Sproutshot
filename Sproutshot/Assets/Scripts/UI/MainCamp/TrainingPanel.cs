@@ -26,14 +26,14 @@ namespace Sproutshot.UI
             FlowerSceneTransition.Instance.EnterScene("GameScene");
         }
 
-        public void OnOpened(float duration)
+        public void OnOpened(float duration, Vector2? slideOffset = null)
         {
-            ProceduralAnimation.DoPanelVisibility(transform, true, duration);
+            ProceduralAnimation.DoPanelVisibility(transform, true, duration, slideOffset);
         }
 
-        public void OnClosed(float duration)
+        public void OnClosed(float duration, Vector2? slideOffset = null)
         {
-            ProceduralAnimation.DoPanelVisibility(transform, false, duration);
+            ProceduralAnimation.DoPanelVisibility(transform, false, duration, slideOffset);
         }
     }
 }

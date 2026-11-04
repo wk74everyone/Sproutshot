@@ -61,28 +61,71 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Gameplay\Entity.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BulletBase.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BulletEffectFactory.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BulletEffectPipeline.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\PiercingMomentumEffect.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\States\SpiritAttack.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Skill\BaseSkill.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\ElementBurstVisual.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\ExpManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyDeath.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\ElementBombBulletEffect.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\MossGuardState.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Runtime\PlayerRuntime.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\States\SpiritFollow.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\States\SpiritIdle.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\FireBulletEffect.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\CharacterMaterialCue.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritLeafVisual.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\CueManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Sprout\PlayerEntity.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\PlayerBullet.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyIdle.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\BulletEffect.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemyBrain.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BulletDamageResolver.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\BattleAudioPresenter.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritBrain.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\FirstStrikeBulletEffect.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritSkillReleaser.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Runtime\LevelRuntime.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Sprout\BulletLauncher.cs" />
     <Compile Include="Assets\Scripts\Gameplay\BattleRoot.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BulletContext.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Buff\SimpleASC.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyChase.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\States\EnemyAttack.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\PierceEffect.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\ThunderStrikeVisual.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\ReturningLeafEffect.cs" />
     <Compile Include="Assets\Scripts\Gameplay\RunContext.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BaseBullet.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\BulletBuffSnapshot.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Buff\AttributeSet.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SpaceManaged\SpatialGrid.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Skill\SkillContext.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Runtime\CardRuntime.cs" />
     <Compile Include="Assets\Scripts\Gameplay\GameplayEvents.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemyEntity.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Enemy\EnemySpawner.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\AreaDamageResolver.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\ThunderBombBulletEffect.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Sprout\PlayerAnimation.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritAnimation.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\ElementProjectileVisual.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritSkills.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Buff\ActiveBuff.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\WorldCueVisual.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritSkillArt.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\LastLeafBloomEffect.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Buff\BuffDefinition.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\SpiritSkillVisual.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritSpawner.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Battle\Bullet\Effect\FrozenBulletEffect.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Spirit\SpiritEntity.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\LeafBloomVisual.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\RewardedAdManager.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Buff\Cue\BaseCue.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Gameplay\Gameplay.asmdef" />
@@ -489,7 +532,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Codely.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.87\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
+      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.88\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.OpenHarmony.Types">
@@ -994,6 +1037,14 @@
     </Reference>
     <Reference Include="System.Xml.Serialization">
       <HintPath>D:\TuanJie\Edi\2022.3.62t14\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Luban.Runtime">
+      <HintPath>Library\ScriptAssemblies\Luban.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="YooAsset">
+      <HintPath>Library\ScriptAssemblies\YooAsset.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">

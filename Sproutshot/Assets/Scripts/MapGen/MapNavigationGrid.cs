@@ -21,8 +21,8 @@ namespace Sproutshot.MapGen
         {
             if (float.IsNaN(clearance) || float.IsInfinity(clearance) || clearance < 0)
                 throw new ArgumentOutOfRangeException(nameof(clearance));
-            float x0 = map.MinX + clearance, x1 = map.MaxX - clearance;
-            float y0 = map.MinY + clearance, y1 = map.MaxY - clearance;
+            float x0 = map.WalkableMinX + clearance, x1 = map.WalkableMaxX - clearance;
+            float y0 = map.WalkableMinY + clearance, y1 = map.WalkableMaxY - clearance;
             if (x0 > x1 || y0 > y1)
                 throw new ArgumentOutOfRangeException(nameof(clearance), "Actor does not fit inside the map.");
             Clearance = clearance;

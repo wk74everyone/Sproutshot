@@ -12,6 +12,8 @@ namespace Sproutshot.Gameplay
         public readonly string Name;
         /// <summary>每层改变的数值。</summary>
         public readonly float Bonus;
+        /// <summary>累计增幅上限，0 表示不限制；由具体行为策略使用。</summary>
+        public readonly float MaxBonus;
         /// <summary>持续时间，-1 表示永久。</summary>
         public readonly float Duration;
         /// <summary>最大层数，-1 表示无上限。</summary>
@@ -20,6 +22,8 @@ namespace Sproutshot.Gameplay
         public readonly int AddStack;
         public readonly BuffType BuffType;
         public readonly ValueBonusType ValueBonusType;
+        /// <summary>周期数值来源：0 固定值，1 目标最大生命比例，2 施加时传入的伤害。</summary>
+        public readonly int PeriodicValueMode;
 
         public BuffDefinition(buff_attribute attribute)
         {
@@ -28,11 +32,13 @@ namespace Sproutshot.Gameplay
             Id = attribute.Id;
             Name = attribute.Name;
             Bonus = attribute.Bonus;
+            MaxBonus = attribute.MaxBonus;
             Duration = attribute.Duration;
             MaxStack = attribute.MaxStack;
             AddStack = attribute.AddStack;
             BuffType = attribute.BuffType;
             ValueBonusType = attribute.ValueBonusType;
+            PeriodicValueMode = attribute.PeriodicValueMode;
         }
     }
 }

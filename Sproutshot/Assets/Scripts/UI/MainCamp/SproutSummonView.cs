@@ -1,3 +1,4 @@
+using Sproutshot.Utils;
 using System;
 using DG.Tweening;
 using TMPro;
@@ -12,12 +13,13 @@ namespace Sproutshot.UI
         private const int MaxResults = 10;
         private const int ResultColumns = 5;
         private const float CardColumnStep = 202f;
-        private const float CardRowStep = 240f;
-        private static readonly Vector2 TenCardSize = new Vector2(180, 212);
+        private const float CardRowStep = 280f;
+        private static readonly Vector2 TenCardSize = new Vector2(180, 250);
         private const float ContactTime = .38f;
         private const float PopTime = .84f;
         private const float RevealTime = 1.64f;
         private static readonly Color Ink = new Color(.10f, .25f, .23f);
+        private static readonly Color Paper = new Color(1f, .98f, .90f);
         private readonly Image[] _ripples = new Image[2];
         private readonly Image[] _sparkles = new Image[5];
         private readonly RectTransform[] _cards = new RectTransform[MaxResults];
@@ -28,12 +30,14 @@ namespace Sproutshot.UI
         private Image _backdrop, _dew, _hero;
         private TMP_Text _title, _hint;
         private Button _skip, _continue;
-        private AudioSource _audio;
+        private AudioHandle _bubbles, _pop;
+        private float _soundVolume;
         private Sequence _sequence;
         private Image _illustration;
         private Color _illustrationColor;
         private SproutSummonResult[] _results;
         private bool _preview;
+        private string _businessSummary;
         public bool IsOpen => gameObject.activeSelf;
 
         public void Initialize(Canvas canvas, TMP_FontAsset font, Action close)
@@ -52,8 +56,12 @@ namespace Sproutshot.UI
             _backdrop.raycastTarget = true;
             _stage = CreateRect("DesignSpace", _root, new Vector2(1080, 1920));
 
-            _title = CreateText("Title", _stage, font, 52, new Vector2(900, 110), new Vector2(0, 750));
-            _hint = CreateText("Hint", _stage, font, 32, new Vector2(900, 120), new Vector2(0, -555));
+            // 用不透明纸色区域遮住原页面的标题、余额、价格和导航，避免两套文案叠在一起。
+            CreatePaperPanel("Header", new Vector2(1080, 270), new Vector2(0, 825));
+            CreatePaperPanel("Footer", new Vector2(1080, 700), new Vector2(0, -610));
+            _title = CreateText("Title", _stage, font, 56, new Vector2(700, 120), new Vector2(-100, 805));
+            _hint = CreateText("Hint", _stage, font, 40, new Vector2(900, 150), new Vector2(0, -435));
+            _title.fontStyle = FontStyles.Bold;
             _dew = CreateImage("FallingStarDew", _stage);
             _dew.rectTransform.sizeDelta = new Vector2(108, 108);
             for (int i = 0; i < _ripples.Length; i++)
@@ -75,12 +83,8 @@ namespace Sproutshot.UI
                 _portraits[i] = CreateImage("Portrait", _cards[i]);
                 _names[i] = CreateText("Name", _cards[i], font, 30, new Vector2(210, 60), new Vector2(0, -100));
             }
-            _skip = CreateButton("Skip", font, new Vector2(180, 84), new Vector2(380, 860), "跳过", Skip);
-            _continue = CreateButton("Continue", font, new Vector2(420, 108), new Vector2(0, -720), "继续", close);
-            _audio = gameObject.AddComponent<AudioSource>();
-            _audio.playOnAwake = false;
-            _audio.spatialBlend = 0;
-            _audio.ignoreListenerPause = true;
+            _skip = CreateButton("Skip", font, new Vector2(190, 92), new Vector2(385, 805), "跳过", Skip);
+            _continue = CreateButton("Continue", font, new Vector2(420, 116), new Vector2(0, -650), "继续", close);
             Hide();
         }
 
@@ -91,16 +95,18 @@ namespace Sproutshot.UI
             Canvas.ForceUpdateCanvases();
             // 在窄屏/平板上都保留安全留白，不依赖物理屏幕像素。
             _stage.localScale = Vector3.one * Mathf.Min(_root.rect.width / 1080f, _root.rect.height / 1920f);
-            _backdrop.color = new Color(.08f, .20f, .18f, .28f);
+            _backdrop.color = new Color(.08f, .20f, .18f, .40f);
+            _title.rectTransform.anchoredPosition = new Vector2(-100, 805);
             _title.text = "召唤准备中";
             _hint.text = "";
         }
 
         public void Play(SproutSummonResult[] results, SproutSummonAssets assets,
-            Image illustration, Vector2 poolPosition, float volume, bool preview)
+            Image illustration, Vector2 poolPosition, float volume, bool preview, string businessSummary = null)
         {
             _results = results;
             _preview = preview;
+            _businessSummary = businessSummary;
             _illustration = illustration;
             if (_illustration != null) _illustrationColor = _illustration.color;
             _dew.sprite = assets.StarDew;
@@ -108,7 +114,7 @@ namespace Sproutshot.UI
             foreach (var ripple in _ripples) ripple.sprite = assets.Ripple;
             foreach (var sparkle in _sparkles) sparkle.sprite = assets.Sparkle;
             _skip.image.sprite = _continue.image.sprite = assets.ButtonFrame;
-            _audio.volume = Mathf.Clamp01(volume);
+            _soundVolume = Mathf.Clamp01(volume);
             _title.text = preview ? "召唤演出预览" : "星露的礼物";
             _hint.text = "星露落入叶碗中…";
             _skip.gameObject.SetActive(true);
@@ -125,10 +131,10 @@ namespace Sproutshot.UI
             _sequence.InsertCallback(ContactTime, () =>
             {
                 _hint.text = "水面泛起了泡泡…";
-                PlaySound(assets.Bubbles);
+                _bubbles = AudioManager.Instance.PlaySfx(AudioId.SummonBubbles, _soundVolume);
             });
             if (_illustration != null)
-                _sequence.Insert(0, Fade(_illustration, _illustrationColor.a * .32f, .22f));
+                _sequence.Insert(0, Fade(_illustration, _illustrationColor.a * .75f, .22f));
 
             for (int i = 0; i < _ripples.Length; i++)
             {
@@ -148,7 +154,7 @@ namespace Sproutshot.UI
             _sequence.InsertCallback(PopTime, () =>
             {
                 _hint.text = "精灵来啦！";
-                PlaySound(assets.Pop);
+                _pop = AudioManager.Instance.PlaySfx(AudioId.SummonPop, _soundVolume);
             });
             _sequence.Insert(PopTime, Fade(_hero, 1, .08f));
             _sequence.Insert(PopTime, Move(_hero.rectTransform, new Vector2(0, 180), .62f).SetEase(Ease.OutCubic));
@@ -171,12 +177,13 @@ namespace Sproutshot.UI
             if (_results == null) return;
             _sequence?.Kill();
             _sequence = null;
-            _audio.Stop(); // 不补播被跳过的音效，也不重新抽取结果。
+            StopSounds(); // 不补播被跳过的音效，也不重新抽取结果。
             ShowFinalResults();
         }
 
         public void ShowError()
         {
+            _title.rectTransform.anchoredPosition = new Vector2(0, 805);
             _title.text = "素材加载失败";
             _hint.text = "请检查 YooAsset 资源配置";
             _skip.gameObject.SetActive(false);
@@ -195,6 +202,7 @@ namespace Sproutshot.UI
             for (int i = 0; i < _results.Length; i++)
             {
                 _cardFrames[i].sprite = frame;
+                _cardFrames[i].preserveAspect = false;
                 _cardFrames[i].color = Color.white;
                 _cards[i].sizeDelta = single ? new Vector2(600, 650) : TenCardSize;
                 // 十连横向五列、共两行；两行整体居中，先上排再下排。
@@ -202,16 +210,16 @@ namespace Sproutshot.UI
                     new Vector2((i % ResultColumns - (ResultColumns - 1) * .5f) * CardColumnStep,
                         110f + (.5f - i / ResultColumns) * CardRowStep);
                 _portraits[i].sprite = _results[i].Sprite;
-                _portraits[i].rectTransform.anchoredPosition = single ? new Vector2(0, 70) : new Vector2(0, 24);
-                _portraits[i].rectTransform.sizeDelta = single ? new Vector2(360, 400) : new Vector2(128, 132);
-                _names[i].rectTransform.anchoredPosition = single ? new Vector2(0, -220) : new Vector2(0, -74);
-                _names[i].rectTransform.sizeDelta = single ? new Vector2(510, 60) : new Vector2(158, 40);
-                _names[i].fontSize = single ? 42 : 24;
+                _portraits[i].rectTransform.anchoredPosition = single ? new Vector2(0, 70) : new Vector2(0, 36);
+                _portraits[i].rectTransform.sizeDelta = single ? new Vector2(360, 400) : new Vector2(112, 116);
+                _names[i].rectTransform.anchoredPosition = single ? new Vector2(0, -200) : new Vector2(0, -65);
+                _names[i].rectTransform.sizeDelta = single ? new Vector2(510, 130) : new Vector2(166, 90);
+                _names[i].fontSize = single ? 42 : 32;
                 _names[i].enableWordWrapping = false;
                 _names[i].overflowMode = TextOverflowModes.Ellipsis;
                 _names[i].richText = false;
                 _names[i].text = string.IsNullOrEmpty(_results[i].Name) ? "小精灵" : _results[i].Name;
-                _names[i].color = Color.Lerp(Ink, _results[i].Accent, .15f);
+                _names[i].color = Ink;
                 _cards[i].localScale = Vector3.zero;
             }
         }
@@ -244,18 +252,21 @@ namespace Sproutshot.UI
             _backdrop.color = new Color(.08f, .20f, .18f, .90f);
             _skip.gameObject.SetActive(false);
             _continue.gameObject.SetActive(true);
+            _title.rectTransform.anchoredPosition = new Vector2(0, 805);
             _title.text = _preview ? "召唤演出预览" : "召唤完成";
-            _hint.text = _preview ? "仅预览动画，不消耗星露" : "精灵来啦！";
+            _hint.text = _preview ? "仅预览动画，不消耗星露" :
+                (string.IsNullOrEmpty(_businessSummary) ? "精灵来啦！" : _businessSummary);
         }
 
         private void ResetPresentation()
         {
             _sequence?.Kill();
             _sequence = null;
-            if (_audio != null) _audio.Stop();
+            StopSounds();
             if (_illustration != null) _illustration.color = _illustrationColor;
             _illustration = null;
             _results = null;
+            _businessSummary = null;
             if (_dew == null) return;
             _dew.rectTransform.localScale = _hero.rectTransform.localScale = Vector3.zero;
             _dew.color = Color.white;
@@ -293,9 +304,18 @@ namespace Sproutshot.UI
             return _stage.InverseTransformPoint(rect.TransformPoint(point));
         }
 
-        private void PlaySound(AudioClip clip)
+        private void StopSounds()
         {
-            if (clip != null) _audio.PlayOneShot(clip);
+            if (!AudioManager.HasInstance) return;
+            AudioManager.Instance.Stop(_bubbles);
+            AudioManager.Instance.Stop(_pop);
+            _bubbles = _pop = default;
+        }
+        private void OnDisable()
+        {
+            _sequence?.Kill();
+            _sequence = null;
+            StopSounds();
         }
 
         private static Tween Fade(Graphic image, float alpha, float duration) =>
@@ -327,13 +347,22 @@ namespace Sproutshot.UI
             return image;
         }
 
+        private void CreatePaperPanel(string name, Vector2 size, Vector2 position)
+        {
+            Image panel = CreateImage(name, _stage);
+            panel.preserveAspect = false;
+            panel.rectTransform.sizeDelta = size;
+            panel.rectTransform.anchoredPosition = position;
+            panel.color = Paper;
+        }
+
         private static TMP_Text CreateText(string name, Transform parent, TMP_FontAsset font,
             int fontSize, Vector2 size, Vector2 position)
         {
             var label = CreateRect(name, parent, size).gameObject.AddComponent<TextMeshProUGUI>();
             label.font = font;
             label.fontSize = fontSize;
-            label.color = new Color(.97f, .97f, .86f);
+            label.color = Ink;
             label.alignment = TextAlignmentOptions.Center;
             label.raycastTarget = false;
             label.rectTransform.anchoredPosition = position;
@@ -348,10 +377,12 @@ namespace Sproutshot.UI
             image.rectTransform.anchoredPosition = position;
             image.raycastTarget = true;
             var button = image.gameObject.AddComponent<Button>();
+            image.gameObject.AddComponent<AudioButtonFeedback>();
             button.targetGraphic = image;
             button.navigation = new Navigation { mode = Navigation.Mode.None };
             button.onClick.AddListener(() => action());
-            TMP_Text label = CreateText("Label", image.transform, font, 36, size, Vector2.zero);
+            TMP_Text label = CreateText("Label", image.transform, font, 44, size, Vector2.zero);
+            label.text = text;
             label.color = Ink;
             return button;
         }
@@ -363,6 +394,6 @@ namespace Sproutshot.UI
             rect.offsetMin = rect.offsetMax = Vector2.zero;
         }
 
-        private void OnDestroy() => _sequence?.Kill();
+        private void OnDestroy() { _sequence?.Kill(); StopSounds(); }
     }
 }

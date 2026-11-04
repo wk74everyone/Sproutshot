@@ -63,16 +63,22 @@
     <Compile Include="Assets\Datas\Configs\Code\card\Buff.cs" />
     <Compile Include="Assets\Datas\Configs\Code\card\tbDisplay.cs" />
     <Compile Include="Assets\Datas\Configs\Code\growth_tbLevel.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\entity_tbSkill.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\level_spawner.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\entity_skill.cs" />
     <Compile Include="Assets\Datas\Configs\Code\growth_level.cs" />
     <Compile Include="Assets\Datas\Configs\Code\buff_hub.cs" />
     <Compile Include="Assets\Datas\Configs\Code\buff_tbHub.cs" />
     <Compile Include="Assets\Datas\Configs\Code\CardRarityType.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\level_tbSpawner.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\entity_tbGrowth.cs" />
     <Compile Include="Assets\Datas\Configs\Code\entity_attribute.cs" />
     <Compile Include="Assets\Datas\Configs\Code\vector4.cs" />
     <Compile Include="Assets\Datas\Configs\Code\vector3.cs" />
     <Compile Include="Assets\Datas\Configs\Code\vector2.cs" />
     <Compile Include="Assets\Datas\Configs\Code\buff_tbAttribute.cs" />
     <Compile Include="Assets\Datas\Configs\Code\level\tbReward.cs" />
+    <Compile Include="Assets\Datas\Configs\Code\entity_growth.cs" />
     <Compile Include="Assets\Datas\Configs\Code\level\reward.cs" />
     <Compile Include="Assets\Datas\Configs\Code\ValueBonusType.cs" />
     <Compile Include="Assets\Datas\Configs\Code\Tables.cs" />
@@ -487,7 +493,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Codely.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.87\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
+      <HintPath>Library\PackageCache\cn.tuanjie.codely.bridge@1.0.88\Plugins\Codely.Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.OpenHarmony.Types">

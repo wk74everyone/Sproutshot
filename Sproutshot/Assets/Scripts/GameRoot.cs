@@ -20,6 +20,7 @@ namespace Sproutshot
             }
 
             Debug.Log("[GameRoot] YooAsset 初始化完成，准备加载游戏场景");
+            yield return AudioManager.Instance.Initialize();
             SceneManager.LoadScene(_gameSceneName);
         }
     }

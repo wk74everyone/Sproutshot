@@ -1,0 +1,11 @@
+{
+  "name": "sproutshot-economy-tests",
+  "private": true,
+  "scripts": {
+    "test": "node --test economy.test.cjs editor-backend.test.cjs growth-config.test.cjs",
+    "editor:server": "node editor-backend.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.11"
+  }
+}

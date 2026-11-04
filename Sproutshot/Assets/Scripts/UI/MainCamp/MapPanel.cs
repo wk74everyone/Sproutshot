@@ -27,11 +27,13 @@ namespace Sproutshot.UI
 
         private void OnEnable()
         {
+            StageProgressSave.Changed += DoLoad;
             DoLoad();
         }
 
         private void OnDisable()
         {
+            StageProgressSave.Changed -= DoLoad;
             // 关闭整个地图页后，下次进入从章节选择开始，同时取消子面板动画。
             if (_chapterContainer != null)
                 _chapterContainer.CloseMap(0f);
@@ -63,17 +65,17 @@ namespace Sproutshot.UI
             }
         }
 
-        public void OnOpened(float duration)
+        public void OnOpened(float duration, Vector2? slideOffset = null)
         {
             // 从非激活状态打开时 OnEnable 会刷新，不重复读取存档。
             if (gameObject.activeSelf)
                 DoLoad();
-            ProceduralAnimation.DoPanelVisibility(transform, true, duration);
+            ProceduralAnimation.DoPanelVisibility(transform, true, duration, slideOffset);
         }
 
-        public void OnClosed(float duration)
+        public void OnClosed(float duration, Vector2? slideOffset = null)
         {
-            ProceduralAnimation.DoPanelVisibility(transform, false, duration);
+            ProceduralAnimation.DoPanelVisibility(transform, false, duration, slideOffset);
         }
 
         public void OnReturnClicked()
